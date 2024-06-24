@@ -338,7 +338,7 @@ const Home = () => {
                                         Timestamp: {new Date(item.timestamp).toLocaleString()}
                                         <br />
                                         Tags: {item.tags.map((tag, index) => (
-                                            <Chip label={tag} icon="pi pi-tag" />
+                                            <Chip label={tag} />
                                     ))}
 
                                     </Card.Meta>

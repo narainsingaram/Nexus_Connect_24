@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Button, Modal, Header, Image } from 'semantic-ui-react';
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { Badge } from 'primereact/badge';
+// import NoteForm from './NoteForm';
+// import NotesList from './NotesList';
 
 
 const ModalComp = ({ open, setOpen, img, name, info, email, contact, id, handleDelete }) => {
@@ -54,6 +56,8 @@ const ModalComp = ({ open, setOpen, img, name, info, email, contact, id, handleD
                     <p>{email}</p>
                     <p>{info}</p>
                     <p>{contact}</p>
+                    <NotesList partnerId={partner.id} />
+                    <NoteForm partnerId={partner.id} />
                     {summary && (
                         <div
                             style={{
