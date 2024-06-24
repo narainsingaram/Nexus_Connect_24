@@ -8,6 +8,8 @@
 /* Import PrimeReact theme styles in a separate layer */
 @layer primereact {
   @import 'primereact/resources/themes/saga-blue/theme.css';
+  @import 'primereact/resources/primereact.min.css'; /* Ensure core PrimeReact styles are included */
+  @import 'primeicons/primeicons.css'; /* Import PrimeIcons CSS */
 }
 
 /* Import Tailwind's components and utilities after PrimeReact styles */

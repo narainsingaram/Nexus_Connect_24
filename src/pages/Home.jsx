@@ -11,7 +11,8 @@ import { AutoComplete } from 'primereact/autocomplete';
 import { Image } from 'primereact/image';
 import {Code} from "@nextui-org/react";
 import { Chip } from 'primereact/chip';
-        
+import 'primeicons/primeicons.css';
+import { Edit } from 'iconsax-react';
 
 
 const admins = [
@@ -344,15 +345,15 @@ const Home = () => {
                                 </Card.Content>
                                 <Card.Content extra>
                                     <div>
-                                        <Button label="View" icon="pi pi-eye" 
+                                        <Button label="View"
                                         onClick={() => handleModal(item)}
-                                        loading={loading} />
+                                        loading={loading}></Button>
                                         {adminMode && isAdminModeValid() && (
                                             <Button
                                                 color="green"
                                                 onClick={() => navigate(`/update/${item.id}`)}
                                             >
-                                                Update
+                                                <Edit size="16" variant="Bulk" color="#fff"/> Update
                                             </Button>
                                         )}
                                         {adminMode && isAdminModeValid() && (
