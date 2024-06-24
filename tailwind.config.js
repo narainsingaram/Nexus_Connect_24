@@ -1,16 +1,12 @@
-// tailwind.config.js
-const {nextui} = require("@nextui-org/react");
-
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
-    // ...
-    // make sure it's pointing to the ROOT node_module
-    "./node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}",
+    // Specify the paths to all of the template files in your project
+    './src/**/*.{html,js,ts,jsx,tsx}', // Adjust according to your project structure
   ],
   theme: {
     extend: {},
   },
-  darkMode: "class",
-  plugins: [nextui()],
+  darkMode: 'class', // or 'media' if you prefer
+  plugins: [],
 };

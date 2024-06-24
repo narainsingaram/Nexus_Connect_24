@@ -6,10 +6,12 @@ import { useNavigate } from "react-router-dom";
 import { collection, onSnapshot, deleteDoc, doc } from 'firebase/firestore';
 import ModalComp from '../components/ModalComp';
 import Spinner from '../components/Spinner'
-import "primereact/resources/themes/lara-light-cyan/theme.css";
+import "primereact/resources/themes/lara-light-indigo/theme.css";
 import { AutoComplete } from 'primereact/autocomplete';
 import { Image } from 'primereact/image';
 import {Code} from "@nextui-org/react";
+import { Chip } from 'primereact/chip';
+        
 
 
 const admins = [
@@ -191,12 +193,45 @@ const Home = () => {
         setFilteredUsers(filtered);
     };
 
+    const exportData = () => {
+        // Prepare data for export
+        const exportData = filteredUsers.map(user => ({
+            Name: user.name,
+            BusinessType: user.businessType,
+            Info: user.info,
+            IndustrySector: user.industrySector,
+            OrganizationSize: user.organizationSize,
+            Timestamp: new Date(user.timestamp).toLocaleString(),
+            Tags: user.tags.join(', ')
+        }));
+
+        // Convert to JSON string
+        const jsonExport = JSON.stringify(exportData, null, 2);
+
+        // Create a Blob object for the JSON data
+        const blob = new Blob([jsonExport], { type: 'application/json' });
+
+        // Create URL for the Blob object
+        const url = URL.createObjectURL(blob);
+
+        // Create a temporary <a> element to trigger the download
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'exported_data.json';
+        document.body.appendChild(a);
+        a.click();
+
+        // Cleanup
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    };
+
     if (loading) {
         return <Spinner />;
     }
 
     return (
-        <div className=''>
+        <div className='bg-gradient-to-br from-yellow-200 via-emerald-300 to-emerald-300'>
             <Container>
                 <div style={{ marginBottom: '20px' }}>
                     <Checkbox
@@ -241,9 +276,16 @@ const Home = () => {
                         value={searchTerm}
                         onChange={handleSearchChange}
                     />
+                    Actions:
+                    <Button
+                        style={{ marginLeft: '10px' }}
+                        onClick={exportData}
+                    >
+                        Export
+                    </Button>
+                    <br></br>
                     <Dropdown
                         placeholder='Filter by business type...'
-                        fluid
                         multiple
                         selection
                         options={businessTypes.map(type => ({ key: type, text: type, value: type }))}
@@ -253,7 +295,6 @@ const Home = () => {
                     />
                     <Dropdown
                         placeholder='Filter by industry sector...'
-                        fluid
                         multiple
                         selection
                         options={industrySectors.map(sector => ({ key: sector, text: sector, value: sector }))}
@@ -263,7 +304,6 @@ const Home = () => {
                     />
                     <Dropdown
                         placeholder='Sort by...'
-                        fluid
                         selection
                         options={[
                             { key: 'organizationSizeAsc', text: 'Organization Size (Ascending)', value: 'organizationSizeAsc' },
@@ -286,11 +326,8 @@ const Home = () => {
                                     <Image src={item.img} alt="Image" width="250" style={{
                                             borderRadius: "20px",
                                         }} preview />
-                                    <Card.Header style={{ marginTop: "10px" }}>
-                                        {item.name} 
-                                        <br></br>
+                                        <h2>{item.name} </h2>
                                         Business Type: {item.businessType}
-                                    </Card.Header>
                                     <Card.Description>{item.info}</Card.Description>
                                     <Card.Meta style={{ marginTop: "10px" }}>
                                         Industry Sector: {item.industrySector}
@@ -300,10 +337,7 @@ const Home = () => {
                                         Timestamp: {new Date(item.timestamp).toLocaleString()}
                                         <br />
                                         Tags: {item.tags.map((tag, index) => (
-                                        <div key={index}>
-                                            <span style={{ marginRight: '5px' }}>{tag}</span>
-                                            <Code color="second">{tag}</Code>
-                                        </div>
+                                            <Chip label={tag} icon="pi pi-tag" />
                                     ))}
 
                                     </Card.Meta>

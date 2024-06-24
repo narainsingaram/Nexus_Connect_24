@@ -15,7 +15,7 @@ function App() {
     <BrowserRouter>
       <div className="App">
       <NextUIProvider>
-      <PrimeReactProvider>
+      <PrimeReactProvider >
       <NavBar />
         <Routes>
           <Route path="/" element={<Home />} />
