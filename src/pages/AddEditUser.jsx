@@ -4,6 +4,8 @@ import { storage, db } from "../firebase";
 import { useParams, useNavigate } from "react-router-dom";
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import { addDoc, collection, doc, getDoc, serverTimestamp, updateDoc } from 'firebase/firestore';
+import { InputText } from 'primereact/inputtext';
+
 
 const initialState = {
     name: "",
@@ -78,87 +80,133 @@ const AddEditUser = () => {
     }, [file])
 
     const handleChange = (e) => {
-        setData({ ...data, [e.target.name]: e.target.value });
+        const { name, value } = e.target;
+        setData({ ...data, [name]: value });
+        validateField(name, value);
+    };
+
+    const validateField = (fieldName, value) => {
+        let error = null;
+
+        switch(fieldName) {
+            case 'name':
+                if (!value) {
+                    error = 'Name is required';
+                }
+                break;
+            case 'email':
+                if (!value) {
+                    error = 'Email is required';
+                }
+                break;
+            case 'info':
+                if (!value) {
+                    error = 'Info is required';
+                }
+                break;
+            case 'contact':
+                if (!value) {
+                    error = 'Contact is required';
+                }
+                break;
+            case 'latitude':
+                if (!value) {
+                    error = 'Latitude is required';
+                }
+                break;
+            case 'longitude':
+                if (!value) {
+                    error = 'Longitude is required';
+                }
+                break;
+            case 'businessType':
+                if (!value) {
+                    error = 'Business Type is required';
+                }
+                break;
+            case 'industrySector':
+                if (!value) {
+                    error = 'Industry/Sector is required';
+                }
+                break;
+            case 'website':
+                if (!value) {
+                    error = 'Website is required';
+                }
+                break;
+            case 'organizationSize':
+                if (!value) {
+                    error = 'Organization Size is required';
+                }
+                break;
+            case 'availability':
+                if (!value) {
+                    error = 'Availability is required';
+                }
+                break;
+            case 'additionalNotes':
+                if (!value) {
+                    error = 'Additional Notes/Description is required';
+                }
+                break;
+            case 'tags':
+                if (!value) {
+                    error = 'Tags are required';
+                }
+                break;
+            default:
+                break;
+        }
+
+        setErrors((prevErrors) => ({
+            ...prevErrors,
+            [fieldName]: error,
+        }));
     };
 
     const validate = () => {
-        let errors = {};
-        if (!name) {
-            errors.name = "Name is Required";
-        }
-    
-        if (!email) {
-            errors.email = "Email is Required";
-        }
-    
-        if (!info) {
-            errors.info = "Info is Required";
-        }
-        if (!contact) {
-            errors.contact = "Contact is Required";
-        }
-        if (!latitude) {
-            errors.latitude = "Latitude is Required";
-        }
-        if (!longitude) {
-            errors.longitude = "Longitude is Required";
-        }
-        if (!businessType) {
-            errors.businessType = "Business Type is Required";
-        }
-        if (!industrySector) {
-            errors.industrySector = "Industry/Sector is Required";
-        }
-        if (!website) {
-            errors.website = "Website is Required";
-        }
-        if (!organizationSize) {
-            errors.organizationSize = "Organization Size is Required";
-        }
-        if (!availability) {
-            errors.availability = "Availability is Required";
-        }
-        if (!additionalNotes) {
-            errors.additionalNotes = "Additional Notes/Description is Required";
-        }
-        if (!tags) {
-            errors.tags = "Tags are Required";
-        }
-        return errors;
+        let valid = true;
+        const newErrors = {};
+
+        Object.keys(data).forEach((fieldName) => {
+            validateField(fieldName, data[fieldName]);
+            if (errors[fieldName]) {
+                valid = false;
+                newErrors[fieldName] = errors[fieldName];
+            }
+        });
+
+        setErrors(newErrors);
+        return valid;
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        let errors = validate();
-        if (Object.keys(errors).length) {
-            return setErrors(errors);
-        }
-        setIsSubmit(true);
-        if (!id) {
+
+        if (validate()) {
+            setIsSubmit(true);
             try {
-                await addDoc(collection(db, "users"), {
+                const userData = {
                     ...data,
                     latitude: parseFloat(data.latitude),
                     longitude: parseFloat(data.longitude),
                     timestamp: serverTimestamp()
-                });
+                };
+
+                if (!id) {
+                    await addDoc(collection(db, "users"), userData);
+                } else {
+                    const docRef = doc(db, "users", id);
+                    await updateDoc(docRef, userData);
+                }
+
+                navigate("/");
             } catch (error) {
-                console.log(error);
-            }
-        } else {
-            try {
-                const docRef = doc(db, "users", id);
-                await updateDoc(docRef, {
-                    ...data,
-                    latitude: parseFloat(data.latitude),
-                    longitude: parseFloat(data.longitude),
-                    timestamp: serverTimestamp()
-                });
-            } catch (error) {
-                console.log(error);
+                console.error("Error adding/updating document: ", error);
+            } finally {
+                setIsSubmit(false);
             }
         }
-        navigate("/")
     };
 
     return (
@@ -179,6 +227,7 @@ const AddEditUser = () => {
                                             onChange={handleChange}
                                             value={name}
                                             autoFocus
+                                            onBlur={() => validateField('name', name)}
                                         />
                                         <Form.Input
                                             label="Email"
@@ -187,6 +236,7 @@ const AddEditUser = () => {
                                             name="email"
                                             onChange={handleChange}
                                             value={email}
+                                            onBlur={() => validateField('email', email)}
                                         />
                                         <Form.TextArea
                                             label="Info"
@@ -195,6 +245,7 @@ const AddEditUser = () => {
                                             name="info"
                                             onChange={handleChange}
                                             value={info}
+                                            onBlur={() => validateField('info', info)}
                                         />
                                         <Form.Input
                                             label="Contact"
@@ -203,6 +254,7 @@ const AddEditUser = () => {
                                             name="contact"
                                             onChange={handleChange}
                                             value={contact}
+                                            onBlur={() => validateField('contact', contact)}
                                         />
                                         <Form.Input
                                             label="Latitude"
@@ -211,6 +263,7 @@ const AddEditUser = () => {
                                             name="latitude"
                                             onChange={handleChange}
                                             value={latitude}
+                                            onBlur={() => validateField('latitude', latitude)}
                                         />
                                         <Form.Input
                                             label="Longitude"
@@ -219,6 +272,7 @@ const AddEditUser = () => {
                                             name="longitude"
                                             onChange={handleChange}
                                             value={longitude}
+                                            onBlur={() => validateField('longitude', longitude)}
                                         />
                                         <Form.Input
                                             label="Business Type"
@@ -227,6 +281,7 @@ const AddEditUser = () => {
                                             name="businessType"
                                             onChange={handleChange}
                                             value={businessType}
+                                            onBlur={() => validateField('businessType', businessType)}
                                         />
                                         <Form.Input
                                             label="Industry/Sector"
@@ -235,6 +290,7 @@ const AddEditUser = () => {
                                             name="industrySector"
                                             onChange={handleChange}
                                             value={industrySector}
+                                            onBlur={() => validateField('industrySector', industrySector)}
                                         />
                                         <Form.Input
                                             label="Website"
@@ -243,6 +299,7 @@ const AddEditUser = () => {
                                             name="website"
                                             onChange={handleChange}
                                             value={website}
+                                            onBlur={() => validateField('website', website)}
                                         />
                                         <Form.Input
                                             label="Size of Organization"
@@ -251,6 +308,7 @@ const AddEditUser = () => {
                                             name="organizationSize"
                                             onChange={handleChange}
                                             value={organizationSize}
+                                            onBlur={() => validateField('organizationSize', organizationSize)}
                                         />
                                         <Form.Input
                                             label="Availability"
@@ -259,6 +317,7 @@ const AddEditUser = () => {
                                             name="availability"
                                             onChange={handleChange}
                                             value={availability}
+                                            onBlur={() => validateField('availability', availability)}
                                         />
                                         <Form.TextArea
                                             label="Additional Notes/Description"
@@ -267,6 +326,7 @@ const AddEditUser = () => {
                                             name="additionalNotes"
                                             onChange={handleChange}
                                             value={additionalNotes}
+                                            onBlur={() => validateField('additionalNotes', additionalNotes)}
                                         />
                                         <Form.Input
                                             label="Tags (e.g., #tag1, #tag2)"
@@ -274,6 +334,7 @@ const AddEditUser = () => {
                                             name="tags"
                                             onChange={handleChange}
                                             value={tags}
+                                            onBlur={() => validateField('tags', tags)}
                                         />
                                         <Form.Input
                                             label="Upload"
