@@ -6,16 +6,12 @@ import Home from './pages/Home';
 import AddEditUser from './pages/AddEditUser';
 import Map from './pages/Map';
 import AI from './pages/AI';
-import { PrimeReactProvider, PrimeReactContext } from 'primereact/api';
-import {NextUIProvider} from "@nextui-org/react";
-import 'primeicons/primeicons.css';
+
 
 function App() {
   return (
     <BrowserRouter>
       <div className="App">
-      <NextUIProvider>
-      <PrimeReactProvider >
       <NavBar />
         <Routes>
           <Route path="/" element={<Home />} />
@@ -24,8 +20,6 @@ function App() {
           <Route path="/map" element={<Map />} />
           <Route path="/ai" element={<AI />} />
         </Routes>
-        </PrimeReactProvider>
-        </NextUIProvider>
       </div>
     </BrowserRouter>
   );

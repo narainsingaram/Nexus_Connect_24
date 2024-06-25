@@ -1,19 +1,18 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { db } from "../firebase";
-import {Card, Grid, Container, Input, Checkbox, Dropdown } from 'semantic-ui-react';
-import { Button } from 'primereact/button';
+import { Card, Grid, Container, Input, Checkbox, Dropdown, Button } from 'semantic-ui-react';
 import { useNavigate } from "react-router-dom";
 import { collection, onSnapshot, deleteDoc, doc } from 'firebase/firestore';
 import ModalComp from '../components/ModalComp';
-import Spinner from '../components/Spinner'
-import "primereact/resources/themes/lara-light-indigo/theme.css";
-import { AutoComplete } from 'primereact/autocomplete';
+import Spinner from '../components/Spinner';
 import { Image } from 'primereact/image';
-import {Code} from "@nextui-org/react";
+import { Code } from "@nextui-org/react";
 import { Chip } from 'primereact/chip';
 import 'primeicons/primeicons.css';
 import { Edit } from 'iconsax-react';
-
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
+import { useTable, useGlobalFilter, useFilters, useSortBy } from 'react-table';
 
 const admins = [
     { name: 'Admin 1', code: 'admin1code' },
@@ -36,13 +35,15 @@ const Home = () => {
     const [industrySectors, setIndustrySectors] = useState([]);
     const [selectedIndustrySectors, setSelectedIndustrySectors] = useState([]);
     const [sortOption, setSortOption] = useState('');
+    const [selectedFields, setSelectedFields] = useState([]);
+    const [tableView, setTableView] = useState(false); // Added state for view toggle
     const navigate = useNavigate();
 
     useEffect(() => {
         const isAdminModeLocalStorage = localStorage.getItem('adminMode') === 'true';
         const selectedAdminLocalStorage = localStorage.getItem('selectedAdmin') || '';
         const secretCodeLocalStorage = localStorage.getItem('secretCode') || '';
-        
+
         setAdminMode(isAdminModeLocalStorage);
         setSelectedAdmin(selectedAdminLocalStorage);
         setSecretCode(secretCodeLocalStorage);
@@ -61,7 +62,7 @@ const Home = () => {
             snapshot.docs.forEach((doc) => {
                 const userData = { id: doc.id, ...doc.data() };
                 userData.tags = userData.tags ? userData.tags.split(',').map(tag => tag.trim()) : [];
-                userData.timestamp = userData.timestamp.toDate(); // Convert Firestore timestamp to JavaScript Date object
+                userData.timestamp = userData.timestamp.toDate().toLocaleString(); // Convert Firestore timestamp to JavaScript Date object
                 businessTypesSet.add(userData.businessType);
                 industrySectorsSet.add(userData.industrySector);
                 list.push(userData);
@@ -176,10 +177,10 @@ const Home = () => {
                 filtered.sort((a, b) => b.organizationSize - a.organizationSize);
                 break;
             case 'timestampAsc':
-                filtered.sort((a, b) => a.timestamp - b.timestamp);
+                filtered.sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
                 break;
             case 'timestampDesc':
-                filtered.sort((a, b) => b.timestamp - a.timestamp);
+                filtered.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
                 break;
             case 'nameAsc':
                 filtered.sort((a, b) => a.name.localeCompare(b.name));
@@ -195,37 +196,65 @@ const Home = () => {
     };
 
     const exportData = () => {
-        // Prepare data for export
         const exportData = filteredUsers.map(user => ({
             Name: user.name,
             BusinessType: user.businessType,
             Info: user.info,
             IndustrySector: user.industrySector,
             OrganizationSize: user.organizationSize,
-            Timestamp: new Date(user.timestamp).toLocaleString(),
+            Timestamp: user.timestamp,
             Tags: user.tags.join(', ')
         }));
 
-        // Convert to JSON string
         const jsonExport = JSON.stringify(exportData, null, 2);
-
-        // Create a Blob object for the JSON data
         const blob = new Blob([jsonExport], { type: 'application/json' });
-
-        // Create URL for the Blob object
         const url = URL.createObjectURL(blob);
-
-        // Create a temporary <a> element to trigger the download
         const a = document.createElement('a');
         a.href = url;
         a.download = 'exported_data.json';
         document.body.appendChild(a);
         a.click();
-
-        // Cleanup
         document.body.removeChild(a);
         URL.revokeObjectURL(url);
     };
+
+    const generatePDF = () => {
+        const doc = new jsPDF();
+        const tableColumn = selectedFields.length > 0 ? selectedFields : ["Name", "BusinessType", "Info", "IndustrySector", "OrganizationSize", "Timestamp", "Tags"];
+        const tableRows = [];
+
+        filteredUsers.forEach(user => {
+            const userData = tableColumn.map(field => user[field]);
+            tableRows.push(userData);
+        });
+
+        autoTable(doc, { head: [tableColumn], body: tableRows });
+        doc.save("report.pdf");
+    };
+
+    const columns = useMemo(
+        () => [
+            { Header: 'Name', accessor: 'name' },
+            { Header: 'Business Type', accessor: 'businessType' },
+            { Header: 'Info', accessor: 'info' },
+            { Header: 'Industry Sector', accessor: 'industrySector' },
+            { Header: 'Organization Size', accessor: 'organizationSize' },
+            { Header: 'Timestamp', accessor: 'timestamp' },
+            { Header: 'Tags', accessor: 'tags' }
+        ],
+        []
+    );
+
+    const data = useMemo(() => filteredUsers, [filteredUsers]);
+
+    const {
+        getTableProps,
+        getTableBodyProps,
+        headerGroups,
+        rows,
+        prepareRow,
+        setGlobalFilter
+    } = useTable({ columns, data }, useGlobalFilter, useFilters, useSortBy);
 
     if (loading) {
         return <Spinner />;
@@ -284,7 +313,19 @@ const Home = () => {
                     >
                         Export
                     </Button>
-                    <br></br>
+                    <Button
+                        style={{ marginLeft: '10px' }}
+                        onClick={generatePDF}
+                    >
+                        Generate PDF
+                    </Button>
+                    <Button
+                        style={{ marginLeft: '10px' }}
+                        onClick={() => setTableView(!tableView)}
+                    >
+                        {tableView ? 'Card View' : 'Table View'}
+                    </Button>
+                    <br />
                     <Dropdown
                         placeholder='Filter by business type...'
                         multiple
@@ -318,67 +359,115 @@ const Home = () => {
                         value={sortOption}
                         style={{ marginTop: '10px' }}
                     />
+                    <Dropdown
+                        placeholder='Select fields for report...'
+                        multiple
+                        selection
+                        options={[
+                            { key: 'name', text: 'Name', value: 'name' },
+                            { key: 'businessType', text: 'Business Type', value: 'businessType' },
+                            { key: 'info', text: 'Info', value: 'info' },
+                            { key: 'industrySector', text: 'Industry Sector', value: 'industrySector' },
+                            { key: 'organizationSize', text: 'Organization Size', value: 'organizationSize' },
+                            { key: 'timestamp', text: 'Timestamp', value: 'timestamp' },
+                            { key: 'tags', text: 'Tags', value: 'tags' }
+                        ]}
+                        onChange={(e, { value }) => setSelectedFields(value)}
+                        value={selectedFields}
+                        style={{ marginTop: '10px' }}
+                    />
                 </div>
-                <Grid columns={3} stackable>
-                    {filteredUsers.map((item) => (
-                        <Grid.Column key={item.id}>
-                            <Card>
-                                <Card.Content>
-                                    <Image src={item.img} alt="Image" width="250" style={{
+                {tableView ? (
+                    <table {...getTableProps()} style={{ width: '100%', borderCollapse: 'collapse' }}>
+                        <thead>
+                            {headerGroups.map(headerGroup => (
+                                <tr {...headerGroup.getHeaderGroupProps()}>
+                                    {headerGroup.headers.map(column => (
+                                        <th {...column.getHeaderProps(column.getSortByToggleProps())} style={{ border: '1px solid black', padding: '10px' }}>
+                                            {column.render('Header')}
+                                            <span>
+                                                {column.isSorted ? (column.isSortedDesc ? ' 🔽' : ' 🔼') : ''}
+                                            </span>
+                                        </th>
+                                    ))}
+                                </tr>
+                            ))}
+                        </thead>
+                        <tbody {...getTableBodyProps()}>
+                            {rows.map(row => {
+                                prepareRow(row);
+                                return (
+                                    <tr {...row.getRowProps()}>
+                                        {row.cells.map(cell => (
+                                            <td {...cell.getCellProps()} style={{ border: '1px solid black', padding: '10px' }}>
+                                                {cell.render('Cell')}
+                                            </td>
+                                        ))}
+                                    </tr>
+                                );
+                            })}
+                        </tbody>
+                    </table>
+                ) : (
+                    <Grid columns={3} stackable>
+                        {filteredUsers.map((item) => (
+                            <Grid.Column key={item.id}>
+                                <Card>
+                                    <Card.Content>
+                                        <Image src={item.img} alt="Image" width="250" style={{
                                             borderRadius: "20px",
                                         }} preview />
                                         <h2>{item.name} </h2>
                                         Business Type: {item.businessType}
-                                    <Card.Description>{item.info}</Card.Description>
-                                    <Card.Meta style={{ marginTop: "10px" }}>
-                                        Industry Sector: {item.industrySector}
-                                        <br />
-                                        Organization Size: {item.organizationSize}
-                                        <br />
-                                        Timestamp: {new Date(item.timestamp).toLocaleString()}
-                                        <br />
-                                        Tags: {item.tags.map((tag, index) => (
-                                            <Chip label={tag} />
-                                    ))}
-
-                                    </Card.Meta>
-                                </Card.Content>
-                                <Card.Content extra>
-                                    <div>
-                                        <Button label="View"
-                                        onClick={() => handleModal(item)}
-                                        loading={loading}></Button>
-                                        {adminMode && isAdminModeValid() && (
-                                            <Button
-                                                color="green"
-                                                onClick={() => navigate(`/update/${item.id}`)}
-                                            >
-                                                <Edit size="16" variant="Bulk" color="#fff"/> Update
-                                            </Button>
-                                        )}
-                                        {adminMode && isAdminModeValid() && (
-                                            <Button
-                                                color="red"
-                                                onClick={() => handleDelete(item.id)}
-                                            >
-                                                Delete
-                                            </Button>
-                                        )}
-                                        {open && (
-                                            <ModalComp
-                                                open={open}
-                                                setOpen={setOpen}
-                                                handleDelete={handleDelete}
-                                                {...user}
-                                            />
-                                        )}
-                                    </div>
-                                </Card.Content>
-                            </Card>
-                        </Grid.Column>
-                    ))}
-                    
-                </Grid>
+                                        <Card.Description>{item.info}</Card.Description>
+                                        <Card.Meta style={{ marginTop: "10px" }}>
+                                            Industry Sector: {item.industrySector}
+                                            <br />
+                                            Organization Size: {item.organizationSize}
+                                            <br />
+                                            Timestamp: {item.timestamp}
+                                            <br />
+                                            Tags: {item.tags.map((tag, index) => (
+                                                <Chip key={index} label={tag} />
+                                            ))}
+                                        </Card.Meta>
+                                    </Card.Content>
+                                    <Card.Content extra>
+                                        <div>
+                                            <Button label="View"
+                                                onClick={() => handleModal(item)}
+                                                loading={loading}></Button>
+                                            {adminMode && isAdminModeValid() && (
+                                                <Button
+                                                    color="green"
+                                                    onClick={() => navigate(`/update/${item.id}`)}
+                                                >
+                                                    <Edit size="16" variant="Bulk" color="#fff" /> Update
+                                                </Button>
+                                            )}
+                                            {adminMode && isAdminModeValid() && (
+                                                <Button
+                                                    color="red"
+                                                    onClick={() => handleDelete(item.id)}
+                                                >
+                                                    Delete
+                                                </Button>
+                                            )}
+                                            {open && (
+                                                <ModalComp
+                                                    open={open}
+                                                    setOpen={setOpen}
+                                                    handleDelete={handleDelete}
+                                                    {...user}
+                                                />
+                                            )}
+                                        </div>
+                                    </Card.Content>
+                                </Card>
+                            </Grid.Column>
+                        ))}
+                    </Grid>
+                )}
             </Container>
         </div>
     );
