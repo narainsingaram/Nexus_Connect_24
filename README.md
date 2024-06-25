@@ -24,3 +24,10 @@ accessibility of the interface?
 <img width="1023" alt="image" src="https://github.com/Narain-Singaram/nexus_connect_24/assets/112223598/ec995580-c958-4fb7-88e1-2cfad470ce62">
 
 
+
+## Ideas 
+- export button in each modal
+- existing export button can export in differenet file formats
+- 
+
+
