@@ -56,8 +56,8 @@ const ModalComp = ({ open, setOpen, img, name, info, email, contact, id, handleD
                     <p>{email}</p>
                     <p>{info}</p>
                     <p>{contact}</p>
-                    <NotesList partnerId={partner.id} />
-                    <NoteForm partnerId={partner.id} />
+                    {/* <NotesList partnerId={partner.id} />
+                    <NoteForm partnerId={partner.id} /> */}
                     {summary && (
                         <div
                             style={{
