@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Button, Modal, Header, Image } from 'semantic-ui-react';
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { Badge } from 'primereact/badge';
+import { Edit } from 'iconsax-react';
+
 // import NoteForm from './NoteForm';
 // import NotesList from './NotesList';
 
@@ -95,6 +97,9 @@ const ModalComp = ({ open, setOpen, img, name, info, email, contact, id, handleD
                     icon="checkmark"
                     onClick={() => handleDelete(id)}
                 />
+                <button onClick={() => handleDelete(id)}>
+                    Delete
+                </button>
             </Modal.Actions>
         </Modal>
     )

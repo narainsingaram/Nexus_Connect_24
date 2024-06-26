@@ -13,6 +13,7 @@ import { Edit } from 'iconsax-react';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import { useTable, useGlobalFilter, useFilters, useSortBy } from 'react-table';
+import 'primereact/resources/themes/saga-blue/theme.css';
 
 const admins = [
     { name: 'Admin 1', code: 'admin1code' },
