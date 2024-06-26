@@ -25,7 +25,7 @@ const initialState = {
 
 const AddEditUser = () => {
     const [data, setData] = useState(initialState);
-    const { name, email, info, contact, latitude, longitude, businessType, industrySector, website, organizationSize, availability, additionalNotes, tags } = data;
+    const {name, email, info, contact, latitude, longitude, businessType, industrySector, website, organizationSize, availability, additionalNotes, tags } = data;
     const [file, setFile] = useState(null);
     const [progress, setProgress] = useState(null);
     const [errors, setErrors] = useState({});
