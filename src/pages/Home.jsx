@@ -12,8 +12,8 @@ import 'primeicons/primeicons.css';
 import { Edit } from 'iconsax-react';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
+
 import { useTable, useGlobalFilter, useFilters, useSortBy } from 'react-table';
-import 'primereact/resources/themes/saga-blue/theme.css';
 
 const admins = [
     { name: 'Admin 1', code: 'admin1code' },
@@ -273,6 +273,7 @@ const Home = () => {
                     {adminMode && (
                         <div style={{ marginTop: '10px' }}>
                             <Dropdown
+                                className="!bg-blue-500"
                                 placeholder='Select admin...'
                                 fluid
                                 selection
@@ -289,6 +290,7 @@ const Home = () => {
                             />
                             <Button
                                 color='blue'
+                                className='!mt-4 !bg-blue-500 !hover:bg-blue-600 !text-white !font-bold'
                                 onClick={() => {
                                     if (isAdminModeValid()) {
                                         handleSuccessAlert();
@@ -415,9 +417,7 @@ const Home = () => {
                             <Grid.Column key={item.id}>
                                 <Card>
                                     <Card.Content>
-                                        <Image src={item.img} alt="Image" width="250" style={{
-                                            borderRadius: "20px",
-                                        }} preview />
+                                        <Image className="rounded-xl" src={item.img} alt="Image" width="250" preview />
                                         <h2>{item.name} </h2>
                                         Business Type: {item.businessType}
                                         <Card.Description>{item.info}</Card.Description>
@@ -464,7 +464,7 @@ const Home = () => {
                                             )}
                                         </div>
                                     </Card.Content>
-                                </Card>
+                                    </Card>
                             </Grid.Column>
                         ))}
                     </Grid>
