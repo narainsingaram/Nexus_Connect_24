@@ -412,7 +412,7 @@ const Home = () => {
                         </tbody>
                     </table>
                 ) : (
-                    <div>
+                    <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
                         {filteredUsers.map((item) => (
 <div key={item.id}>
    <div className="group bg-slate-50 p-4 shadow-sm rounded-2xl transition duration-300 ease-in-out transform hover:shadow-lg relative rounded-t-xl overflow-hidden">
