@@ -11,7 +11,7 @@ import 'semantic-ui-css/semantic.min.css'
 function App() {
   return (
     <BrowserRouter>
-      <div className="App">
+      <div data-theme="cupcake" className="App !bg-white">
       <NavBar />
         <Routes>
           <Route path="/" element={<Home />} />

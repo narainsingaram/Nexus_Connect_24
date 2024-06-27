@@ -34,3 +34,10 @@ body {
 * {
   font-family: "IBM Plex Sans", sans-serif !important;
 }
+
+
+/* Hides the dropdown icon */
+.ui.dropdown .dropdown.icon {
+  display: none !important;
+  
+}

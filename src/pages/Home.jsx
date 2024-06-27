@@ -264,35 +264,35 @@ const Home = () => {
     }
 
     return (
-        <div className='bg-gradient-to-br from-yellow-200 via-emerald-300 to-emerald-300'>
+        <div className=''>
             <Container>
                 <div style={{ marginBottom: '20px' }}>
                     <Checkbox
-                        className='!p-4 !bg-slate-100 !rounded-3xl !mt-4 !font-bold'
+                        className='!p-4 !bg-slate-100 !rounded-3xl !m-4 !font-bold'
                         label='Admin Mode'
                         checked={adminMode}
                         onChange={handleAdminModeChange}
                     />
                     <br></br>
                     {adminMode && (
-                        <div className='' style={{ marginTop: '10px' }}>
+                        <div className='mb-6 mt-2'>
                             <Dropdown
-                                className="!py-3 !px-4 !inline-flex !items-center !gap-x-2 !text-sm !font-medium !rounded-lg !border !border-gray-200 !bg-white !text-gray-800 !shadow-sm !hover:bg-gray-50 !mb-8"
+                                className="!dropdown !rounded-full"
                                 placeholder='Select admin...'
                                 selection
                                 options={admins.map(admin => ({ key: admin.name, text: admin.name, value: admin.name }))}
                                 onChange={handleAdminSelectChange}
                                 value={selectedAdmin}
                             />
-                            <Input
+                            <input
+                                className='input input-bordered bg-white'
                                 placeholder='Enter secret code...'
                                 type='password'
                                 value={secretCode}
                                 onChange={handleSecretCodeChange}
                             />
-                            <Button
-                                color='blue'
-                                className='!mt-4 !bg-blue-500 !ml-2 !rounded-full !hover:bg-blue-600 !text-white !font-bold'
+                            <button
+                                className='btn btn-primary'
                                 onClick={() => {
                                     if (isAdminModeValid()) {
                                         handleSuccessAlert();
@@ -300,41 +300,15 @@ const Home = () => {
                                         alert('Invalid admin credentials.');
                                     }
                                 }}
-                            >
-                                ->
-                            </Button>
+                            > Go
+                            </button>
                         </div>
                     )}
-                    <Input
-                        className=''
-                        placeholder='Search...'
-                        value={searchTerm}
-                        onChange={handleSearchChange}
-                    />
                     <input placeholder='Search...' className='input py-3 px-4 block w-full bg-gray-100 border-transparent rounded-xl text-sm dark:border-transparent dark:text-gray-400 dark:focus:ring-gray-600 transition-transform duration-300 transform hover:translate-y-0.5' value={searchTerm} onChange={handleSearchChange}></input>
-                    <br></br>
-                    Actions:
-                    <button className='py-3 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none' onClick={exportData}>
-                        Export
-                    </button>
-                    <button
-                        style={{ marginLeft: '10px' }}
-                        onClick={generatePDF}
-                        className='py-3 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none'
-                    >
-                        Generate PDF
-                    </button>
-                    <br></br>
-                    View:
-                    <Button
-                        style={{ marginLeft: '10px' }}
-                        onClick={() => setTableView(!tableView)}
-                    >
-                        {tableView ? 'Card View' : 'Table View'}
-                    </Button>
-                    <br />
+                    FILTERING SYSTEM
                     <Dropdown
                         placeholder='Filter by business type...'
+                        className=''
                         multiple
                         selection
                         options={businessTypes.map(type => ({ key: type, text: type, value: type }))}
@@ -366,6 +340,7 @@ const Home = () => {
                         value={sortOption}
                         style={{ marginTop: '10px' }}
                     />
+                    <br></br>
                     <Dropdown
                         placeholder='Select fields for report...'
                         multiple
@@ -383,6 +358,27 @@ const Home = () => {
                         value={selectedFields}
                         style={{ marginTop: '10px' }}
                     />
+
+                    <button
+                        style={{ marginLeft: '10px' }}
+                        onClick={generatePDF}
+                        className='py-3 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none'
+                    >
+                        Generate PDF
+                    </button>
+                    <br></br>
+                    <br></br>
+                    <button className='py-3 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-yellow-600 text-white hover:bg-yellow-700 disabled:opacity-50 disabled:pointer-events-none' onClick={exportData}>
+                        Export as JSON
+                    </button>
+                    <button
+                        style={{ marginLefzt: '10px' }}
+                        onClick={() => setTableView(!tableView)}
+                        className='py-3 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none'
+                    >
+                        {tableView ? 'Card View' : 'Table View'}
+                    </button>
+                    <br />
                 </div>
                 {tableView ? (
                     <table {...getTableProps()} style={{ width: '100%', borderCollapse: 'collapse' }}>
@@ -419,38 +415,32 @@ const Home = () => {
                     <Grid columns={3} stackable>
                         {filteredUsers.map((item) => (
                             <Grid.Column key={item.id}>
-                                <Card className="!group !flex !flex-col !h-full !bg-slate-50 !border-4 !border-black-200 !shadow-sm !rounded-xl !transition !duration-300 !ease-in-out !transform !hover:shadow-lg !w-80 !relative !rounded-t-xl !overflow-hidden">
+                                <Card className="!group !bg-slate-50 !border-4 !border-black-200 !shadow-sm !rounded-xl !transition !duration-300 !ease-in-out !transform !hover:shadow-lg !relative !rounded-t-xl !overflow-hidden">
                                     <Card.Content>
                                         <Image className="rounded-xl" src={item.img} alt="Image" width="250" preview />
                                         <h2>{item.name} </h2>
-                                        <Card.Description>{item.info}</Card.Description>
-                                        <div class="!p-4 !md:p-6">
+                                        <span>{item.info}</span>
                                         Business Type: {item.businessType}
-                                            <br />
                                         Industry Sector: {item.industrySector}
-                                            <br />
                                             Organization Size: {item.organizationSize}
-                                            <br />
-                                            Timestamp: {item.timestamp}
-                                            <br />
-                                            Tags: {item.tags.map((tag, index) => (
+=                                            Timestamp: {item.timestamp}
+[]                                            Tags: {item.tags.map((tag, index) => (
                                                 <Chip key={index} label={tag} />
                                             ))}
-                                        </div>
                                     </Card.Content>
                                     <Card.Content extra>
-                                        <div>
-                                                <button onClick={() => handleModal(item)}
+                                        <div className=''>
+                                                <button className='btn btn-info' onClick={() => handleModal(item)}
                                                 loading={loading}>
                                                     View
                                                 </button>
                                             {adminMode && isAdminModeValid() && (
-                                                <button onClick={() => navigate(`/update/${item.id}`)}>
+                                                <button className='btn btn-success' onClick={() => navigate(`/update/${item.id}`)}>
                                                     Update
                                                 </button>
                                             )}
                                             {adminMode && isAdminModeValid() && (
-                                                <button onClick={() => handleDelete(item.id)}>
+                                                <button className='btn btn-error' onClick={() => handleDelete(item.id)}>
                                                     Delete
                                                 </button>
                                             )}
