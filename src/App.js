@@ -6,7 +6,7 @@ import Home from './pages/Home';
 import AddEditUser from './pages/AddEditUser';
 import Map from './pages/Map';
 import AI from './pages/AI';
-
+import 'semantic-ui-css/semantic.min.css'
 
 function App() {
   return (
@@ -26,3 +26,6 @@ function App() {
 }
 
 export default App;
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>

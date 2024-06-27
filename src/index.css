@@ -1,15 +1,15 @@
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap');
 
-/* Import Tailwind's base styles first */
-@layer tailwind-base {
-  @tailwind base;
-}
-
 /* Import PrimeReact theme styles in a separate layer */
 @layer primereact {
   @import 'primereact/resources/themes/saga-blue/theme.css';
   @import 'primereact/resources/primereact.min.css'; /* Ensure core PrimeReact styles are included */
   @import 'primeicons/primeicons.css'; /* Import PrimeIcons CSS */
+}
+
+/* Import Tailwind's base styles first */
+@layer tailwind-base {
+  @tailwind base;
 }
 
 /* Import Tailwind's components and utilities after PrimeReact styles */
@@ -18,12 +18,17 @@
   @tailwind utilities;
 }
 
+
 /* Global styles */
 body {
   margin: 0;
   font-family: "IBM Plex Sans", sans-serif !important;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.monkeyCard {
+  border-radius: 20px !important;
 }
 
 * {
