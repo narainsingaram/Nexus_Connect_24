@@ -412,52 +412,59 @@ const Home = () => {
                         </tbody>
                     </table>
                 ) : (
-                    <Grid columns={3} stackable>
+                    <div>
                         {filteredUsers.map((item) => (
-                            <Grid.Column key={item.id}>
-                                <Card className="!group !bg-slate-50 !border-4 !border-black-200 !shadow-sm !rounded-xl !transition !duration-300 !ease-in-out !transform !hover:shadow-lg !relative !rounded-t-xl !overflow-hidden">
-                                    <Card.Content>
-                                        <Image className="rounded-xl" src={item.img} alt="Image" width="250" preview />
-                                        <h2>{item.name} </h2>
-                                        <span>{item.info}</span>
-                                        Business Type: {item.businessType}
-                                        Industry Sector: {item.industrySector}
-                                            Organization Size: {item.organizationSize}
-=                                            Timestamp: {item.timestamp}
-[]                                            Tags: {item.tags.map((tag, index) => (
-                                                <Chip key={index} label={tag} />
-                                            ))}
-                                    </Card.Content>
-                                    <Card.Content extra>
-                                        <div className=''>
-                                                <button className='btn btn-info' onClick={() => handleModal(item)}
-                                                loading={loading}>
-                                                    View
-                                                </button>
-                                            {adminMode && isAdminModeValid() && (
-                                                <button className='btn btn-success' onClick={() => navigate(`/update/${item.id}`)}>
-                                                    Update
-                                                </button>
-                                            )}
-                                            {adminMode && isAdminModeValid() && (
-                                                <button className='btn btn-error' onClick={() => handleDelete(item.id)}>
-                                                    Delete
-                                                </button>
-                                            )}
-                                            {open && (
-                                                <ModalComp
-                                                    open={open}
-                                                    setOpen={setOpen}
-                                                    handleDelete={handleDelete}
-                                                    {...user}
-                                                />
-                                            )}
-                                        </div>
-                                    </Card.Content>
-                                    </Card>
-                            </Grid.Column>
+<div key={item.id}>
+   <div className="group bg-slate-50 p-4 shadow-sm rounded-2xl transition duration-300 ease-in-out transform hover:shadow-lg relative rounded-t-xl overflow-hidden">
+    <img className="rounded-xl" src={item.img} alt="Image" width="250" />
+    <div className="px-2 py-1">
+        <h2 className="text-2xl text-left font-bold mb-2">{item.name}</h2>
+        <p className="text-gray-600 text-left">{item.info}</p>
+        <div className="mt-4">
+            <p className="text-sm text-gray-500 text-left">
+                <span className="font-semibold">Business Type:</span> {item.businessType}
+            </p>
+            <p className="text-sm text-gray-500">
+                <span className="font-semibold">Industry Sector:</span> {item.industrySector}
+            </p>
+            <p className="text-sm text-gray-500">
+                <span className="font-semibold">Organization Size:</span> {item.organizationSize}
+            </p>
+            <p className="text-sm text-gray-500">
+                <span className="font-semibold">Timestamp:</span> {item.timestamp}
+            </p>
+            <div className="mt-2">
+                {item.tags.map((tag, index) => (
+                    <span key={index} className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
+                        {tag}
+                    </span>
+                ))}
+            </div>
+        </div>
+        <div className="mt-4">
+            <button className="btn btn-info mr-2" onClick={() => handleModal(item)} loading={loading}>
+                View
+            </button>
+            {adminMode && isAdminModeValid() && (
+                <button className="btn btn-success mr-2" onClick={() => navigate(`/update/${item.id}`)}>
+                    Update
+                </button>
+            )}
+            {adminMode && isAdminModeValid() && (
+                <button className="btn btn-error" onClick={() => handleDelete(item.id)}>
+                    Delete
+                </button>
+            )}
+        </div>
+    </div>
+    {open && (
+        <ModalComp open={open} setOpen={setOpen} handleDelete={handleDelete} {...user} />
+    )}
+</div>
+
+                            </div>
                         ))}
-                    </Grid>
+                    </div>
                 )}
 
             </Container>
