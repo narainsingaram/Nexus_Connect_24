@@ -16,7 +16,7 @@
         "docx": "^8.5.0",
         "file-saver": "^2.0.5",
         "firebase": "^10.12.2",
-        "flowbite": "^2.3.0",
+        "flowbite": "^2.4.1",
         "framer-motion": "^11.2.11",
         "iconsax-react": "^0.0.8",
         "js-cookie": "^3.0.5",

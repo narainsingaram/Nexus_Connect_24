@@ -1,47 +1,92 @@
 import React from 'react';
-import { Menubar } from 'primereact/menubar';
 import { useNavigate } from 'react-router-dom';
 import logo from '../asset/logo.svg';
 
 const NavBar = () => {
   const navigate = useNavigate();
 
-  const items = [
-    { label: 'Home', icon: 'pi pi-fw pi-home', command: () => navigate('/') },
-    { label: 'About', icon: 'pi pi-fw pi-info-circle', command: () => navigate('/about') },
-    { label: 'Services', icon: 'pi pi-fw pi-cog', command: () => navigate('/services') },
-    { label: 'Contact', icon: 'pi pi-fw pi-envelope', command: () => navigate('/contact') }
-  ];
-
   return (
-  <header class="flex flex-wrap sm:justify-start sm:flex-nowrap w-full bg-white text-sm py-4 dark:bg-neutral-800">
-    <nav class="max-w-[85rem] w-full mx-auto px-4 sm:flex sm:items-center sm:justify-between" aria-label="Global">
-      <div class="flex items-center justify-between">
-        <a class="inline-flex items-center gap-x-2 text-xl font-semibold dark:text-white" href="/">
-          <svg class="w-10 h-auto" width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect width="100" height="100" rx="10" fill="black"/>
-            <path d="M37.656 68V31.6364H51.5764C54.2043 31.6364 56.3882 32.0507 58.1283 32.8793C59.8802 33.696 61.1882 34.8146 62.0523 36.2351C62.9282 37.6555 63.3662 39.2654 63.3662 41.0646C63.3662 42.5443 63.0821 43.8108 62.5139 44.8643C61.9458 45.906 61.1823 46.7524 60.2235 47.4034C59.2646 48.0544 58.1934 48.522 57.0097 48.8061V49.1612C58.2999 49.2322 59.5369 49.6288 60.7206 50.3509C61.9162 51.0611 62.8927 52.0672 63.6503 53.3693C64.4079 54.6714 64.7867 56.2457 64.7867 58.0923C64.7867 59.9744 64.3309 61.6671 63.4195 63.1705C62.508 64.6619 61.1349 65.8397 59.3002 66.7038C57.4654 67.5679 55.1572 68 52.3754 68H37.656ZM44.2433 62.4957H51.3279C53.719 62.4957 55.4413 62.04 56.4948 61.1286C57.5601 60.2053 58.0928 59.0215 58.0928 57.5774C58.0928 56.5002 57.8264 55.5296 57.2938 54.6655C56.7611 53.7895 56.0035 53.103 55.021 52.6058C54.0386 52.0968 52.8667 51.8423 51.5054 51.8423H44.2433V62.4957ZM44.2433 47.1016H50.7597C51.896 47.1016 52.92 46.8944 53.8314 46.4801C54.7429 46.054 55.459 45.4562 55.9798 44.6868C56.5125 43.9055 56.7789 42.9822 56.7789 41.9169C56.7789 40.5083 56.2817 39.3482 55.2874 38.4368C54.3049 37.5253 52.843 37.0696 50.9017 37.0696H44.2433V47.1016Z" fill="white"/>
-          </svg>
-          NexusConnect
-        </a>
-        <div class="sm:hidden">
-          <button type="button" class="hs-collapse-toggle p-2 inline-flex justify-center items-center gap-x-2 rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-transparent dark:border-neutral-700 dark:text-white dark:hover:bg-white/10" data-hs-collapse="#navbar-image-and-text-1" aria-controls="navbar-image-and-text-1" aria-label="Toggle navigation">
-            <svg class="hs-collapse-open:hidden flex-shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" x2="21" y1="6" y2="6"/><line x1="3" x2="21" y1="12" y2="12"/><line x1="3" x2="21" y1="18" y2="18"/></svg>
-            <svg class="hs-collapse-open:block hidden flex-shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
-          </button>
+    <nav className="bg-light-blue-600">
+      <div className="mx-auto max-w-7xl px-4 sm:px-8 lg:px-12">
+        <div className="relative flex h-20 items-center justify-between">
+          <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
+            {/* Mobile menu button */}
+            <button
+              type="button"
+              className="relative inline-flex items-center justify-center rounded-md p-3 text-light-blue-200 hover:bg-light-blue-500 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
+              aria-controls="mobile-menu"
+              aria-expanded="false"
+            >
+              <span className="absolute -inset-0.5"></span>
+              <span className="sr-only">Open main menu</span>
+              {/* Icon when menu is closed */}
+              <svg className="block h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+              </svg>
+              {/* Icon when menu is open */}
+              <svg className="hidden h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+          <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
+            <div className="flex flex-shrink-0 items-center">
+              <img className="h-10 w-auto" src={logo} alt="Your Company" />
+            </div>
+            <div className="hidden sm:ml-8 sm:block">
+              <div className="flex space-x-6">
+                <a href="/" className="rounded-md bg-light-blue-700 px-4 py-2 text-md font-medium text-white" aria-current="page">Home</a>
+                <a href="/about" className="rounded-md px-4 py-2 text-md font-medium text-light-blue-200 hover:bg-light-blue-500 hover:text-white">About</a>
+                <a href="/services" className="rounded-md px-4 py-2 text-md font-medium text-light-blue-200 hover:bg-light-blue-500 hover:text-white">Services</a>
+                <a href="/contact" className="rounded-md px-4 py-2 text-md font-medium text-light-blue-200 hover:bg-light-blue-500 hover:text-white">Contact</a>
+              </div>
+            </div>
+          </div>
+          <div className="absolute inset-y-0 right-0 flex items-center pr-4 sm:static sm:inset-auto sm:ml-8 sm:pr-0">
+            <button
+              type="button"
+              className="relative rounded-full bg-light-blue-600 p-2 text-light-blue-200 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-light-blue-600"
+            >
+              <span className="absolute -inset-1.5"></span>
+              <span className="sr-only">View notifications</span>
+              <svg className="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
+              </svg>
+            </button>
+            <div className="relative ml-3">
+              <div>
+                <button
+                  type="button"
+                  className="relative flex rounded-full bg-light-blue-600 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-light-blue-600"
+                  id="user-menu-button"
+                  aria-expanded="false"
+                  aria-haspopup="true"
+                >
+                  <span className="absolute -inset-1.5"></span>
+                  <span className="sr-only">Open user menu</span>
+                  <img className="h-10 w-10 rounded-full" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="User profile" />
+                </button>
+              </div>
+              <div className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabIndex="-1">
+                <a href="#" className="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabIndex="-1" id="user-menu-item-0">Your Profile</a>
+                <a href="#" className="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabIndex="-1" id="user-menu-item-1">Settings</a>
+                <a href="#" className="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabIndex="-1" id="user-menu-item-2">Sign out</a>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-      <div id="navbar-image-and-text-1" class="hs-collapse hidden overflow-hidden transition-all duration-300 basis-full grow sm:block">
-        <div class="flex flex-col gap-5 mt-5 sm:flex-row sm:items-center sm:justify-end sm:mt-0 sm:ps-5">
-          <a class="font-medium text-blue-500" href="#" aria-current="page">Landing</a>
-          <a class="font-medium text-gray-600 hover:text-gray-400 dark:text-neutral-400 dark:hover:text-neutral-500" href="#">Account</a>
-          <a class="font-medium text-gray-600 hover:text-gray-400 dark:text-neutral-400 dark:hover:text-neutral-500" href="#">Work</a>
-          <button onClick={() => navigate('/add')} class="bg-blue-300 px-2 font-bold py-1.5 rounded-md font-medium text-gray-800 hover:text-gray-400" href="#">Add Business</button>
+      <div className="sm:hidden" id="mobile-menu">
+        <div className="space-y-1 px-4 pb-3 pt-2">
+          <a href="/" className="block rounded-md bg-light-blue-700 px-3 py-2 text-base font-medium text-white" aria-current="page">Home</a>
+          <a href="/about" className="block rounded-md px-3 py-2 text-base font-medium text-light-blue-200 hover:bg-light-blue-500 hover:text-white">About</a>
+          <a href="/services" className="block rounded-md px-3 py-2 text-base font-medium text-light-blue-200 hover:bg-light-blue-500 hover:text-white">Services</a>
+          <a href="/contact" className="block rounded-md px-3 py-2 text-base font-medium text-light-blue-200 hover:bg-light-blue-500 hover:text-white">Contact</a>
+          <button onClick={() => navigate('/add')} className="block w-full rounded-md bg-light-blue-500 px-3 py-2 text-base font-medium text-white hover:bg-light-blue-600">Add Business</button>
         </div>
       </div>
     </nav>
-  </header>
   );
-}
+};
 
 export default NavBar;
