@@ -5,13 +5,11 @@ module.exports = {
     './src/**/*.{html,js,ts,jsx,tsx}', // Adjust according to your project structure
   ],
   daisyui: {
-    themes: ["light", "dark", "cupcake"],
   },
   theme: {
     extend: {},
   },
   darkMode: 'class', // or 'media' if you prefer
   plugins: [
-    require('daisyui'),
   ],
 };

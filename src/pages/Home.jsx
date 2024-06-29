@@ -8,11 +8,9 @@ import Spinner from '../components/Spinner';
 import { Image } from 'primereact/image';
 import { Code } from "@nextui-org/react";
 import { Chip } from 'primereact/chip';
-import 'primeicons/primeicons.css';
 import { Edit } from 'iconsax-react';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
-import 'flowbite';
 
 
 import { useTable, useGlobalFilter, useFilters, useSortBy } from 'react-table';
@@ -265,7 +263,7 @@ const Home = () => {
 
     return (
         <div className=''>
-            <Container>
+            <div>
                 <div style={{ marginBottom: '20px' }}>
                     <Checkbox
                         className='!p-4 !bg-slate-100 !rounded-3xl !m-4 !font-bold'
@@ -304,8 +302,9 @@ const Home = () => {
                             </button>
                         </div>
                     )}
-                    <input placeholder='Search...' className='input py-3 px-4 block w-full bg-gray-100 border-transparent rounded-xl text-sm dark:border-transparent dark:text-gray-400 dark:focus:ring-gray-600 transition-transform duration-300 transform hover:translate-y-0.5' value={searchTerm} onChange={handleSearchChange}></input>
-                    FILTERING SYSTEM
+                    <input
+  placeholder="Search..." className="input py-3 px-4 mx-auto max-w-md bg-gray-100 border-transparent rounded-xl text-sm dark:border-transparent dark:text-gray-400 dark:focus:ring-gray-600 transition-transform duration-300 transform hover:translate-y-0.5" value={searchTerm} onChange={handleSearchChange}  ></input>
+  <br></br>
                     <Dropdown
                         placeholder='Filter by business type...'
                         className=''
@@ -325,6 +324,7 @@ const Home = () => {
                         value={selectedIndustrySectors}
                         style={{ marginTop: '10px' }}
                     />
+
                     <Dropdown
                         placeholder='Sort by...'
                         selection
@@ -340,7 +340,6 @@ const Home = () => {
                         value={sortOption}
                         style={{ marginTop: '10px' }}
                     />
-                    <br></br>
                     <Dropdown
                         placeholder='Select fields for report...'
                         multiple
@@ -358,7 +357,6 @@ const Home = () => {
                         value={selectedFields}
                         style={{ marginTop: '10px' }}
                     />
-
                     <button
                         style={{ marginLeft: '10px' }}
                         onClick={generatePDF}
@@ -366,18 +364,18 @@ const Home = () => {
                     >
                         Generate PDF
                     </button>
-                    <br></br>
-                    <br></br>
-                    <button className='py-3 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-yellow-600 text-white hover:bg-yellow-700 disabled:opacity-50 disabled:pointer-events-none' onClick={exportData}>
+                    
+                    <button className='py-3 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600  text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none' onClick={exportData}>
                         Export as JSON
                     </button>
+                    
                     <button
                         style={{ marginLefzt: '10px' }}
                         onClick={() => setTableView(!tableView)}
                         className='py-3 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none'
                     >
                         {tableView ? 'Card View' : 'Table View'}
-                    </button>
+                    </button>   
                     <br />
                 </div>
                 {tableView ? (
@@ -412,62 +410,54 @@ const Home = () => {
                         </tbody>
                     </table>
                 ) : (
-                    <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
-                        {filteredUsers.map((item) => (
+<div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 m-8 rounded-2xl'>
+  {filteredUsers.map((item) => (
 <div key={item.id}>
-   <div className="group bg-slate-50 p-4 shadow-sm rounded-2xl transition duration-300 ease-in-out transform hover:shadow-lg relative rounded-t-xl overflow-hidden">
-    <img className="rounded-xl" src={item.img} alt="Image" width="250" />
-    <div className="px-2 py-1">
-        <h2 className="text-2xl text-left font-bold mb-2">{item.name}</h2>
-        <p className="text-gray-600 text-left">{item.info}</p>
-        <div className="mt-4">
-            <p className="text-sm text-gray-500 text-left">
-                <span className="font-semibold">Business Type:</span> {item.businessType}
+<section className="max-w-sm rounded-2xl overflow-hidden shadow-lg">
+  <img className="w-full h-56" src={item.img} alt="Sunset in the mountains" />
+  <div className="px-6 py-4">
+    <span className='inline-block text-red-600'>{item.businessType}</span>
+    <div className="font-bold text-xl mb-2">{item.name}</div>
+    <p className="text-gray-700 ">
+      {item.info}
+    </p>
+    <p className="text-sm text-gray-500">
+              <span className="font-semibold">Industry Sector:</span> {item.industrySector}
             </p>
             <p className="text-sm text-gray-500">
-                <span className="font-semibold">Industry Sector:</span> {item.industrySector}
+              <span className="font-semibold">Organization Size:</span> {item.organizationSize}
             </p>
             <p className="text-sm text-gray-500">
-                <span className="font-semibold">Organization Size:</span> {item.organizationSize}
+              <span className="font-semibold">Timestamp:</span> {item.timestamp}
             </p>
-            <p className="text-sm text-gray-500">
-                <span className="font-semibold">Timestamp:</span> {item.timestamp}
-            </p>
-            <div className="mt-2">
-                {item.tags.map((tag, index) => (
-                    <span key={index} className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
-                        {tag}
-                    </span>
-                ))}
-            </div>
-        </div>
-        <div className="mt-4">
-            <button className="btn btn-info mr-2" onClick={() => handleModal(item)} loading={loading}>
-                View
-            </button>
-            {adminMode && isAdminModeValid() && (
-                <button className="btn btn-success mr-2" onClick={() => navigate(`/update/${item.id}`)}>
-                    Update
-                </button>
-            )}
-            {adminMode && isAdminModeValid() && (
-                <button className="btn btn-error" onClick={() => handleDelete(item.id)}>
-                    Delete
-                </button>
-            )}
-        </div>
+  </div>
+  <div className="px-6 pt-4 pb-2">
+    {item.tags.map((tag, index) => (
+        <span key={index} className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
+            {tag}
+        </span>
+     ))}
+  </div>
+  <div class="mt-auto flex border-t border-gray-200 divide-x divide-gray-200 dark:border-neutral-700 dark:divide-neutral-700">
+        <span class="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-es-xl bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-800" onClick={() => handleModal(item)} href="#">
+          View
+        </span>
+        <span class="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-ee-xl bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-800" onClick={() => navigate(`/update/${item.id}`)} href="#">
+          Update
+        </span>
+        <span class="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-ee-xl bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-800" onClick={() => handleDelete(item.id)} href="#">
+          Delete
+        </span>
+      </div>
+</section>
     </div>
-    {open && (
-        <ModalComp open={open} setOpen={setOpen} handleDelete={handleDelete} {...user} />
-    )}
-</div>
 
-                            </div>
-                        ))}
-                    </div>
+  ))}
+  </div>
+                    
                 )}
 
-            </Container>
+            </div>
         </div>
     );
 };
