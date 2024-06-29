@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { AiOutlineMenu } from 'react-icons/ai';
 import { BsKanban, BsInbox, BsPerson, BsBoxArrowInRight, BsBoxArrowInLeft } from 'react-icons/bs';
 import { RiDashboardLine, RiProductHuntLine } from 'react-icons/ri';
 import { FiUsers } from 'react-icons/fi';
@@ -25,8 +24,6 @@ const Sidebar = () => {
         onClick={toggleSidebar}
       >
         <span className="sr-only">Open sidebar</span>
-        <AiOutlineMenu className="w-6 h-6" />
-      </button>
 
       <aside
         id="logo-sidebar"
