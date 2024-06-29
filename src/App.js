@@ -1,17 +1,15 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import './App.css';
 import NavBar from './components/NavBar';
 import Home from './pages/Home';
 import AddEditUser from './pages/AddEditUser';
 import Map from './pages/Map';
 import AI from './pages/AI';
-import 'semantic-ui-css/semantic.min.css'
 
 function App() {
   return (
     <BrowserRouter>
-      <div data-theme="cupcake" className="App !bg-white">
+      <div className="App">
       <NavBar />
         <Routes>
           <Route path="/" element={<Home />} />
@@ -27,5 +25,3 @@ function App() {
 
 export default App;
 
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
