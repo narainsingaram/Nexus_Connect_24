@@ -141,23 +141,39 @@ const Home = () => {
         filterUsers(searchTerm, selectedBusinessTypes, selectedIndustrySectors, sortOption);
     };
 
-    const handleBusinessTypeChange = (event, data) => {
-        const selectedTypes = data.value;
+    const handleBusinessTypeChange = (event) => {
+        const selectedTypes = Array.from(event.target.selectedOptions, option => option.value);
         setSelectedBusinessTypes(selectedTypes);
         filterUsers(searchTerm, selectedTypes, selectedIndustrySectors, sortOption);
-    };
-
-    const handleIndustrySectorChange = (event, data) => {
-        const selectedSectors = data.value;
+      };
+      
+      const handleIndustrySectorChange = (event) => {
+        const selectedSectors = Array.from(event.target.selectedOptions, option => option.value);
         setSelectedIndustrySectors(selectedSectors);
         filterUsers(searchTerm, selectedBusinessTypes, selectedSectors, sortOption);
-    };
-
-    const handleSortChange = (event, data) => {
-        const selectedSortOption = data.value;
+      };
+      
+      const handleSortChange = (event) => {
+        const selectedSortOption = event.target.value;
         setSortOption(selectedSortOption);
         filterUsers(searchTerm, selectedBusinessTypes, selectedIndustrySectors, selectedSortOption);
-    };
+      };
+      
+      document.addEventListener('DOMContentLoaded', (event) => {
+        const button = document.getElementById('options-menu');
+        const menu = button.nextElementSibling;
+      
+        button.addEventListener('click', () => {
+          menu.classList.toggle('hidden');
+        });
+      
+        // Close the dropdown when clicking outside
+        document.addEventListener('click', (event) => {
+          if (!button.contains(event.target) && !menu.contains(event.target)) {
+            menu.classList.add('hidden');
+          }
+        });
+      });
 
     const filterUsers = (searchTerm, selectedBusinessTypes, selectedIndustrySectors, sortOption) => {
         let filtered = users.filter(user => {
@@ -319,6 +335,7 @@ const Home = () => {
 
 
   <br></br>
+
                     <Dropdown
                         placeholder='Filter by business type...'
                         className=''
@@ -338,22 +355,26 @@ const Home = () => {
                         value={selectedIndustrySectors}
                         style={{ marginTop: '10px' }}
                     />
-
-                    <Dropdown
-                        placeholder='Sort by...'
-                        selection
-                        options={[
-                            { key: 'organizationSizeAsc', text: 'Organization Size (Ascending)', value: 'organizationSizeAsc' },
-                            { key: 'organizationSizeDesc', text: 'Organization Size (Descending)', value: 'organizationSizeDesc' },
-                            { key: 'timestampAsc', text: 'Most Recent', value: 'timestampDesc' },
-                            { key: 'timestampDesc', text: 'Oldest', value: 'timestampAsc' },
-                            { key: 'nameAsc', text: 'Name (A-Z)', value: 'nameAsc' },
-                            { key: 'nameDesc', text: 'Name (Z-A)', value: 'nameDesc' }
-                        ]}
-                        onChange={handleSortChange}
-                        value={sortOption}
-                        style={{ marginTop: '10px' }}
-                    />
+                    
+                        <div className="mt-4">
+                            <label className="block">
+                                <span className="text-gray-700">Sort by:</span>
+                                <select
+                                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                                    onChange={handleSortChange}
+                                    value={sortOption}
+                                >
+                                    <option value="">Default</option>
+                                    <option value="organizationSizeAsc">Organization Size (Ascending)</option>
+                                    <option value="organizationSizeDesc">Organization Size (Descending)</option>
+                                    <option value="timestampAsc">Timestamp (Oldest First)</option>
+                                    <option value="timestampDesc">Timestamp (Newest First)</option>
+                                    <option value="nameAsc">Name (A-Z)</option>
+                                    <option value="nameDesc">Name (Z-A)</option>
+                                </select>
+                            </label>
+                        </div>
+                        
                     <br></br>
                     <Dropdown
                         placeholder='Select fields for report...'
@@ -384,6 +405,30 @@ const Home = () => {
                     <button className='py-3 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600  text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none' onClick={exportData}>
                         Export as JSON
                     </button>
+
+
+<button id="dropdownDefaultButton" data-dropdown-toggle="dropdown" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">Dropdown button <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+</svg>
+</button>
+
+<div id="dropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
+    <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
+      <li>
+        <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Dashboard</a>
+      </li>
+      <li>
+        <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Settings</a>
+      </li>
+      <li>
+        <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Earnings</a>
+      </li>
+      <li>
+        <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Sign out</a>
+      </li>
+    </ul>
+</div>
+
                                 
             <div className="flex justify-center items-center space-x-4 mt-4">
                 <button
