@@ -11,6 +11,7 @@ module.exports = {
   },
   darkMode: 'class', // or 'media' if you prefer
   plugins: [
-    require('flowbite/plugin')
+    require('flowbite/plugin'),
+    require('daisyui'),
   ],
 };
