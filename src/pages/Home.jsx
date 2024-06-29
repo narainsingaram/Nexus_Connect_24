@@ -265,8 +265,8 @@ const Home = () => {
     
 
     return (
-        <Container>
-            <div>
+        <>
+            <div className='ml-64 p-4'>
                 <div style={{ marginBottom: '20px' }}>
                     <Checkbox
                         className='!p-4 !bg-slate-100 !rounded-3xl !m-4 !font-bold'
@@ -511,7 +511,7 @@ const Home = () => {
 </div>
 
 
-        </Container>
+        </>
     );
 };
 
