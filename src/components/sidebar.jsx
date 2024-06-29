@@ -1,21 +1,16 @@
 import React, { useState } from 'react';
-import { BsKanban, BsInbox, BsPerson, BsBoxArrowInRight, BsBoxArrowInLeft } from 'react-icons/bs';
-import { RiDashboardLine, RiProductHuntLine } from 'react-icons/ri';
-import { FiUsers } from 'react-icons/fi';
-import { FaMapMarkedAlt } from "react-icons/fa";
 import { MdSpaceDashboard } from "react-icons/md";
+import { FaMapMarkedAlt } from "react-icons/fa";
 import { GiBrain } from "react-icons/gi";
-
-
-
+import { useNavigate } from 'react-router-dom';
 
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const navigate = useNavigate();
 
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
   };
-
   return (
     <>
       <button
@@ -24,6 +19,7 @@ const Sidebar = () => {
         onClick={toggleSidebar}
       >
         <span className="sr-only">Open sidebar</span>
+      </button>
 
       <aside
         id="logo-sidebar"
@@ -43,11 +39,11 @@ const Sidebar = () => {
                 <MdSpaceDashboard className="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
                 <span className="ms-3">Dashboard</span>
               </a>
-            </li>   
+            </li>
             <li>
               <a href="./map" className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                 <FaMapMarkedAlt className="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
-                <span className="flex-1 ms-3 whitespace-nowrap">Map</span>
+                <span className="ms-3">Map</span>
               </a>
             </li>
             <li>
@@ -55,7 +51,13 @@ const Sidebar = () => {
                 <GiBrain className="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
                 <span className="ms-3">AI Chat</span>
               </a>
-            </li>  
+            </li>
+            <li>
+              <button  className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                <GiBrain className="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
+                <span onClick={() => navigate('/add')} className="ms-3">Add Business</span>
+              </button>
+            </li>
           </ul>
         </div>
       </aside>

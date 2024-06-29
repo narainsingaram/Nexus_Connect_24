@@ -269,44 +269,56 @@ const Home = () => {
     return (
         <>
             <div className='ml-64 p-4'>
-                <div style={{ marginBottom: '20px' }}>
-                    <Checkbox
-                        className='!p-4 !bg-slate-100 !rounded-3xl !m-4 !font-bold'
-                        label='Admin Mode'
-                        checked={adminMode}
-                        onChange={handleAdminModeChange}
+            <div className='' style={{ marginBottom: '20px' }}>
+        <button 
+            className={`btn ${adminMode ? 'btn-success' : 'btn-error'}`} 
+            onClick={()=>document.getElementById('admin_modal').showModal()}
+        >
+            Admin Mode: {adminMode ? 'Active' : 'Inactive'}
+        </button>
+        
+        <dialog id="admin_modal" className="modal">
+            <div className="modal-box">
+                <h3 className="font-bold text-lg">Admin Mode Settings</h3>
+                <div className='mb-6 mt-2'>
+                    <Dropdown
+                        className="dropdown rounded-full mb-2"
+                        placeholder='Select admin...'
+                        selection
+                        options={admins.map(admin => ({ key: admin.name, text: admin.name, value: admin.name }))}
+                        onChange={handleAdminSelectChange}
+                        value={selectedAdmin}
                     />
+                    <input
+                        className='input input-bordered bg-white w-full mb-2'
+                        placeholder='Enter secret code...'
+                        type='password'
+                        value={secretCode}
+                        onChange={handleSecretCodeChange}
+                    />
+                    <button
+                        className='btn btn-primary w-full'
+                        onClick={() => {
+                            if (isAdminModeValid()) {
+                                setAdminMode(true);
+                                handleSuccessAlert();
+                                document.getElementById('admin_modal').close();
+                            } else {
+                                alert('Invalid admin credentials.');
+                            }
+                        }}
+                    >
+                        Activate Admin Mode
+                    </button>
+                </div>
+                <div className="modal-action">
+                    <form method="dialog">
+                        <button className="btn" onClick={() => setAdminMode(false)}>Close & Deactivate Admin Mode</button>
+                    </form>
+                </div>
+            </div>
+        </dialog>
                     <br></br>
-                    {adminMode && (
-                        <div className='mb-6 mt-2'>
-                            <Dropdown
-                                className="!dropdown !rounded-full"
-                                placeholder='Select admin...'
-                                selection
-                                options={admins.map(admin => ({ key: admin.name, text: admin.name, value: admin.name }))}
-                                onChange={handleAdminSelectChange}
-                                value={selectedAdmin}
-                            />
-                            <input
-                                className='input input-bordered bg-white'
-                                placeholder='Enter secret code...'
-                                type='password'
-                                value={secretCode}
-                                onChange={handleSecretCodeChange}
-                            />
-                            <button
-                                className='btn btn-primary'
-                                onClick={() => {
-                                    if (isAdminModeValid()) {
-                                        handleSuccessAlert();
-                                    } else {
-                                        alert('Invalid admin credentials.');
-                                    }
-                                }}
-                            > Go
-                            </button>
-                        </div>
-                    )}
 <div className="flex justify-center items-center w-full py-3">
   <div className="flex items-center w-full max-w-md bg-gray-100 border-transparent rounded-xl text-lg dark:border-transparent dark:text-gray-400 dark:focus:ring-gray-600 transition-transform duration-300 transform hover:translate-y-0.5">
     <SearchNormal size="24" color="#3b82f6" variant="Bulk" className="ml-4"/>
@@ -319,91 +331,90 @@ const Home = () => {
   </div>
 </div>
 
+<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-6">
+    <div className="relative">
+        <label htmlFor="businessType" className="block text-sm font-medium text-gray-700 mb-1">Business Type</label>
+        <select
+            id="businessType"
+            multiple
+            className="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
+            onChange={(e) => handleBusinessTypeChange(e, { value: Array.from(e.target.selectedOptions, option => option.value) })}
+            value={selectedBusinessTypes}
+        >
+            {businessTypes.map(type => (
+                <option key={type} value={type}>{type}</option>
+            ))}
+        </select>
+    </div>
 
-  <br></br>
-                    <Dropdown
-                        placeholder='Filter by business type...'
-                        className=''
-                        multiple
-                        selection
-                        options={businessTypes.map(type => ({ key: type, text: type, value: type }))}
-                        onChange={handleBusinessTypeChange}
-                        value={selectedBusinessTypes}
-                        style={{ marginTop: '10px' }}
-                    />
-                    <Dropdown
-                        placeholder='Filter by industry sector...'
-                        multiple
-                        selection
-                        options={industrySectors.map(sector => ({ key: sector, text: sector, value: sector }))}
-                        onChange={handleIndustrySectorChange}
-                        value={selectedIndustrySectors}
-                        style={{ marginTop: '10px' }}
-                    />
-            
-                    <Dropdown
-                        placeholder='Sort by...'
-                        selection
-                        options={[
-                            { key: 'organizationSizeAsc', text: 'Organization Size (Ascending)', value: 'organizationSizeAsc' },
-                            { key: 'organizationSizeDesc', text: 'Organization Size (Descending)', value: 'organizationSizeDesc' },
-                            { key: 'timestampAsc', text: 'Most Recent', value: 'timestampDesc' },
-                            { key: 'timestampDesc', text: 'Oldest', value: 'timestampAsc' },
-                            { key: 'nameAsc', text: 'Name (A-Z)', value: 'nameAsc' },
-                            { key: 'nameDesc', text: 'Name (Z-A)', value: 'nameDesc' }
-                        ]}
-                        onChange={handleSortChange}
-                        value={sortOption}
-                        style={{ marginTop: '10px' }}
-                        />
-                        <div className="mt-4">
-                            <label className="block">
-                                <span className="text-gray-700">Sort by:</span>
-                                <select
-                                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                                    onChange={handleSortChange}
-                                    value={sortOption}
-                                >
-                                    <option value="">Default</option>
-                                    <option value="organizationSizeAsc">Organization Size (Ascending)</option>
-                                    <option value="organizationSizeDesc">Organization Size (Descending)</option>
-                                    <option value="timestampAsc">Timestamp (Oldest First)</option>
-                                    <option value="timestampDesc">Timestamp (Newest First)</option>
-                                    <option value="nameAsc">Name (A-Z)</option>
-                                    <option value="nameDesc">Name (Z-A)</option>
-                                </select>
-                            </label>
-                        </div>
-                    <br></br>
-                    <Dropdown
-                        placeholder='Select fields for report...'
-                        multiple
-                        selection
-                        options={[
-                            { key: 'name', text: 'Name', value: 'name' },
-                            { key: 'businessType', text: 'Business Type', value: 'businessType' },
-                            { key: 'info', text: 'Info', value: 'info' },
-                            { key: 'industrySector', text: 'Industry Sector', value: 'industrySector' },
-                            { key: 'organizationSize', text: 'Organization Size', value: 'organizationSize' },
-                            { key: 'timestamp', text: 'Timestamp', value: 'timestamp' },
-                            { key: 'tags', text: 'Tags', value: 'tags' }
-                        ]}
-                        onChange={(e, { value }) => setSelectedFields(value)}
-                        value={selectedFields}
-                        style={{ marginTop: '10px' }}
-                    />
-                    <button
-                        style={{ marginLeft: '10px' }}
-                        onClick={generatePDF}
-                        className='py-3 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none'
-                    >
-                        Generate PDF
-                    </button>
-                    <br></br>
-                    
-                    <button className='py-3 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600  text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none' onClick={exportData}>
-                        Export as JSON
-                    </button>
+    <div className="relative">
+        <label htmlFor="industrySector" className="block text-sm font-medium text-gray-700 mb-1">Industry Sector</label>
+        <select
+            id="industrySector"
+            multiple
+            className="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
+            onChange={(e) => handleIndustrySectorChange(e, { value: Array.from(e.target.selectedOptions, option => option.value) })}
+            value={selectedIndustrySectors}
+        >
+            {industrySectors.map(sector => (
+                <option key={sector} value={sector}>{sector}</option>
+            ))}
+        </select>
+    </div>
+
+    <div className="relative">
+        <label htmlFor="sortOption" className="block text-sm font-medium text-gray-700 mb-1">Sort by</label>
+        <select
+            id="sortOption"
+            className="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
+            onChange={handleSortChange}
+            value={sortOption}
+        >
+            <option value="">Default</option>
+            <option value="organizationSizeAsc">Organization Size (Ascending)</option>
+            <option value="organizationSizeDesc">Organization Size (Descending)</option>
+            <option value="timestampDesc">Most Recent</option>
+            <option value="timestampAsc">Oldest</option>
+            <option value="nameAsc">Name (A-Z)</option>
+            <option value="nameDesc">Name (Z-A)</option>
+        </select>
+    </div>
+</div>
+
+<div className="mt-6">
+    <label htmlFor="reportFields" className="block text-sm font-medium text-gray-700 mb-1">Select fields for report</label>
+    <select
+        id="reportFields"
+        multiple
+        className="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
+        onChange={(e) => setSelectedFields(Array.from(e.target.selectedOptions, option => option.value))}
+        value={selectedFields}
+    >
+        <option value="name">Name</option>
+        <option value="businessType">Business Type</option>
+        <option value="info">Info</option>
+        <option value="industrySector">Industry Sector</option>
+        <option value="organizationSize">Organization Size</option>
+        <option value="timestamp">Timestamp</option>
+        <option value="tags">Tags</option>
+    </select>
+</div>
+
+<div className="mt-6 space-x-4">
+    <button
+        onClick={generatePDF}
+        className="py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+    >
+        Generate PDF
+    </button>
+    <button
+        onClick={exportData}
+        className="py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+    >
+        Export as JSON
+    </button>
+</div>
+
                                 
             <div className="flex justify-center items-center space-x-4 mt-4">
                 <button
