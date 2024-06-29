@@ -1,13 +1,7 @@
 import React, { useState } from 'react';
-import { BsKanban, BsInbox, BsPerson, BsBoxArrowInRight, BsBoxArrowInLeft } from 'react-icons/bs';
-import { RiDashboardLine, RiProductHuntLine } from 'react-icons/ri';
-import { FiUsers } from 'react-icons/fi';
-import { FaMapMarkedAlt } from "react-icons/fa";
 import { MdSpaceDashboard } from "react-icons/md";
+import { FaMapMarkedAlt } from "react-icons/fa";
 import { GiBrain } from "react-icons/gi";
-
-
-
 
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -24,6 +18,8 @@ const Sidebar = () => {
         onClick={toggleSidebar}
       >
         <span className="sr-only">Open sidebar</span>
+        {/* You can add an icon or text here to indicate the button's purpose */}
+      </button>
 
       <aside
         id="logo-sidebar"
@@ -33,7 +29,7 @@ const Sidebar = () => {
         aria-label="Sidebar"
       >
         <div className="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
-          <a className="flex items-center ps-2.5 mb-5">
+          <a className="flex items-center ps-2.5 mb-5" href="/">
             <img src="https://flowbite.com/docs/images/logo.svg" className="h-6 me-3 sm:h-7" alt="Flowbite Logo" />
             <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white">Nexus Connect</span>
           </a>
