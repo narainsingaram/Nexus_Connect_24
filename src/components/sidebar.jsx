@@ -24,7 +24,6 @@ const Sidebar = () => {
         onClick={toggleSidebar}
       >
         <span className="sr-only">Open sidebar</span>
-      </button>
 
       <aside
         id="logo-sidebar"
