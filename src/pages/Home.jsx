@@ -12,6 +12,7 @@ import { Edit, SearchNormal } from 'iconsax-react';
 import jsPDF from 'jspdf';
 import 'flowbite';
 import autoTable from 'jspdf-autotable';
+import Cookies from 'js-cookie';
 
 
 
@@ -43,18 +44,30 @@ const Home = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        const isAdminModeLocalStorage = localStorage.getItem('adminMode') === 'true';
-        const selectedAdminLocalStorage = localStorage.getItem('selectedAdmin') || '';
-        const secretCodeLocalStorage = localStorage.getItem('secretCode') || '';
-
-        setAdminMode(isAdminModeLocalStorage);
-        setSelectedAdmin(selectedAdminLocalStorage);
-        setSecretCode(secretCodeLocalStorage);
-
-        if (isAdminModeLocalStorage && selectedAdminLocalStorage && secretCodeLocalStorage) {
-            validateAdminMode(selectedAdminLocalStorage, secretCodeLocalStorage);
+        const isAdminModeCookie = getCookie('adminMode') === 'true';
+        const selectedAdminCookie = getCookie('selectedAdmin') || '';
+        const secretCodeCookie = getCookie('secretCode') || '';
+    
+        setAdminMode(isAdminModeCookie);
+        setSelectedAdmin(selectedAdminCookie);
+        setSecretCode(secretCodeCookie);
+    
+        if (isAdminModeCookie && selectedAdminCookie && secretCodeCookie) {
+            validateAdminMode(selectedAdminCookie, secretCodeCookie);
         }
     }, []);
+
+    const setCookie = (name, value, days = 7) => {
+        Cookies.set(name, value, { expires: days });
+    };
+    
+    const getCookie = (name) => {
+        return Cookies.get(name);
+    };
+    
+    const removeCookie = (name) => {
+        Cookies.remove(name);
+    };
 
     useEffect(() => {
         setLoading(true);
@@ -107,19 +120,25 @@ const Home = () => {
         setAdminMode(isChecked);
         setSelectedAdmin('');
         setSecretCode('');
-        localStorage.setItem('adminMode', isChecked);
+        if (isChecked) {
+            setCookie('adminMode', 'true');
+        } else {
+            removeCookie('adminMode');
+            removeCookie('selectedAdmin');
+            removeCookie('secretCode');
+        }
     };
 
     const handleAdminSelectChange = (event, data) => {
         const selectedAdminValue = data.value;
         setSelectedAdmin(selectedAdminValue);
-        localStorage.setItem('selectedAdmin', selectedAdminValue);
+        setCookie('selectedAdmin', selectedAdminValue);
     };
 
     const handleSecretCodeChange = (event) => {
         const secretCodeValue = event.target.value;
         setSecretCode(secretCodeValue);
-        localStorage.setItem('secretCode', secretCodeValue);
+        setCookie('secretCode', secretCodeValue);
     };
 
     const validateAdminMode = (adminName, code) => {
@@ -296,24 +315,30 @@ const Home = () => {
                         value={secretCode}
                         onChange={handleSecretCodeChange}
                     />
-                    <button
-                        className='btn btn-primary w-full'
-                        onClick={() => {
-                            if (isAdminModeValid()) {
-                                setAdminMode(true);
-                                handleSuccessAlert();
-                                document.getElementById('admin_modal').close();
-                            } else {
-                                alert('Invalid admin credentials.');
-                            }
-                        }}
-                    >
-                        Activate Admin Mode
-                    </button>
+                <button
+                    className='btn btn-primary w-full'
+                    onClick={() => {
+                        if (isAdminModeValid()) {
+                            setAdminMode(true);
+                            setCookie('adminMode', 'true');
+                            handleSuccessAlert();
+                            document.getElementById('admin_modal').close();
+                        } else {
+                            alert('Invalid admin credentials.');
+                        }
+                    }}
+                >
+                    Activate Admin Mode
+                </button>
                 </div>
                 <div className="modal-action">
                     <form method="dialog">
-                        <button className="btn" onClick={() => setAdminMode(false)}>Close & Deactivate Admin Mode</button>
+                    <button className="btn" onClick={() => {
+    setAdminMode(false);
+    removeCookie('adminMode');
+    removeCookie('selectedAdmin');
+    removeCookie('secretCode');
+}}>Close & Deactivate Admin Mode</button>
                     </form>
                 </div>
             </div>
