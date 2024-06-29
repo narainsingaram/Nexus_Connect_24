@@ -262,7 +262,7 @@ const Home = () => {
     }
 
     return (
-        <div className=''>
+        <Container>
             <div>
                 <div style={{ marginBottom: '20px' }}>
                     <Checkbox
@@ -466,7 +466,7 @@ const Home = () => {
                 )}
 
             </div>
-        </div>
+        </Container>
     );
 };
 
