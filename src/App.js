@@ -5,12 +5,13 @@ import Home from './pages/Home';
 import AddEditUser from './pages/AddEditUser';
 import Map from './pages/Map';
 import AI from './pages/AI';
+import Sidebar from './components/sidebar';
 
 function App() {
   return (
     <BrowserRouter>
       <div className="App">
-      <NavBar />
+      <Sidebar />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/add" element={<AddEditUser />} />
