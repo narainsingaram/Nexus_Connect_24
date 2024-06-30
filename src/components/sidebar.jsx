@@ -3,7 +3,7 @@ import { MdSpaceDashboard } from "react-icons/md";
 import { FaMapMarkedAlt } from "react-icons/fa";
 import { GiBrain } from "react-icons/gi";
 import { useNavigate } from 'react-router-dom';
-
+import { Graph,  } from 'iconsax-react';
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
@@ -42,7 +42,7 @@ const Sidebar = () => {
             </li>
             <li>
               <a href="./graph" className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-                <MdSpaceDashboard className="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
+                <Graph variant="Bold" className="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
                 <span className="ms-3">Graphs</span>
               </a>
             </li>
@@ -57,12 +57,6 @@ const Sidebar = () => {
                 <GiBrain className="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
                 <span className="ms-3">AI Chat</span>
               </a>
-            </li>
-            <li>
-              <button  className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-                <GiBrain className="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
-                <span onClick={() => navigate('/add')} className="ms-3">Add Business</span>
-              </button>
             </li>
           </ul>
         </div>
