@@ -235,7 +235,7 @@ const AddEditUser = () => {
             <div>
               {isSubmit ? <Loader active inline="centered" size="huge" /> : (
                 <>
-                  <h2>{id ? "Update User" : "Add User"}</h2>
+                  <h2>{id ? "Update Business" : "Add Business"}</h2>
                   <Form onSubmit={handleSubmit}>
                     <Form.Input
                       label="Name"
