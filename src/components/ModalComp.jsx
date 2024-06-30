@@ -55,13 +55,10 @@ const ModalComp = ({ open, setOpen, img, name, info, email, contact, id, handleD
                 
                 <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
                     <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-                        <div className="sm:flex sm:items-start">
-                            
-                            <div className="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-blue-100 sm:mx-0 sm:h-10 sm:w-10">
-                                {/* Replace with your image */}
-                            </div>
+                        <div className="">
+                        <img className="" src={img} alt="Workflow" /> 
                             <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
-                                <h3 className="text-lg font-medium leading-6 text-gray-900">{name}</h3>
+                                <h3 className="!text-4xl font-medium leading-6 mt-2 text-gray-900">{name}</h3>
                                 <div className="mt-2">
                                     <p className="text-sm text-gray-500">{email}</p>
                                     <p className="text-sm text-gray-500">{info}</p>
