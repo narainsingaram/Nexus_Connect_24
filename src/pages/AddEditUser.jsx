@@ -4,6 +4,9 @@ import { storage, db } from "../firebase";
 import { useParams, useNavigate } from "react-router-dom";
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import { addDoc, collection, doc, getDoc, serverTimestamp, updateDoc } from 'firebase/firestore';
+import { GoogleGenerativeAI } from "@google/generative-ai";
+import { Magicpen } from 'iconsax-react';
+
 
 const initialState = {
   name: "",
@@ -28,6 +31,7 @@ const AddEditUser = () => {
   const [progress, setProgress] = useState(null);
   const [errors, setErrors] = useState({});
   const [isSubmit, setIsSubmit] = useState(false);
+  const [loadingTags, setLoadingTags] = useState(false);
   const navigate = useNavigate();
   const { id } = useParams();
 
@@ -54,28 +58,17 @@ const AddEditUser = () => {
       uploadTask.on("state_changed", (snapshot) => {
         const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
         setProgress(progress);
-        switch (snapshot.state) {
-          case "paused":
-            console.log("Upload is Paused");
-            break;
-          case "running":
-            console.log("Upload is Running");
-            break;
-          default:
-            break;
-        }
       }, (error) => {
-        console.log(error)
-      },
-        () => {
-          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-            setData((prev) => ({ ...prev, img: downloadURL }));
-          })
+        console.log(error);
+      }, () => {
+        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+          setData((prev) => ({ ...prev, img: downloadURL }));
         });
+      });
     };
 
-    file && uploadFile()
-  }, [file])
+    file && uploadFile();
+  }, [file]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -88,77 +81,47 @@ const AddEditUser = () => {
 
     switch (fieldName) {
       case 'name':
-        if (!value) {
-          error = 'Name is required';
-        }
+        if (!value) error = 'Name is required';
         break;
       case 'email':
-        if (!value) {
-          error = 'Email is required';
-        } else if (!/\S+@\S+\.\S+/.test(value)) {
-          error = 'Email is invalid';
-        }
+        if (!value) error = 'Email is required';
+        else if (!/\S+@\S+\.\S+/.test(value)) error = 'Email is invalid';
         break;
       case 'info':
-        if (!value) {
-          error = 'Info is required';
-        }
+        if (!value) error = 'Info is required';
         break;
       case 'contact':
-        if (!value) {
-          error = 'Contact is required';
-        }
+        if (!value) error = 'Contact is required';
         break;
       case 'latitude':
-        if (!value) {
-          error = 'Latitude is required';
-        } else if (isNaN(value)) {
-          error = 'Latitude must be a number';
-        }
+        if (!value) error = 'Latitude is required';
+        else if (isNaN(value)) error = 'Latitude must be a number';
         break;
       case 'longitude':
-        if (!value) {
-          error = 'Longitude is required';
-        } else if (isNaN(value)) {
-          error = 'Longitude must be a number';
-        }
+        if (!value) error = 'Longitude is required';
+        else if (isNaN(value)) error = 'Longitude must be a number';
         break;
       case 'businessType':
-        if (!value) {
-          error = 'Business Type is required';
-        }
+        if (!value) error = 'Business Type is required';
         break;
       case 'industrySector':
-        if (!value) {
-          error = 'Industry/Sector is required';
-        }
+        if (!value) error = 'Industry/Sector is required';
         break;
       case 'website':
-        if (!value) {
-          error = 'Website is required';
-        } else if (!isValidURL(value)) {
-          error = 'Website URL is invalid';
-        }
+        if (!value) error = 'Website is required';
+        else if (!isValidURL(value)) error = 'Website URL is invalid';
         break;
       case 'organizationSize':
-        if (!value) {
-          error = 'Organization Size is required';
-        }
+        if (!value) error = 'Organization Size is required';
         break;
       case 'availability':
-        if (!value) {
-          error = 'Availability is required';
-        }
+        if (!value) error = 'Availability is required';
         break;
       case 'additionalNotes':
-        if (!value) {
-          error = 'Additional Notes/Description is required';
-        }
+        if (!value) error = 'Additional Notes/Description is required';
         break;
       case 'tags':
-        if (!value) {
-          error = 'Tags are required';
-        }
+        if (!value) error = 'Tags are required';
         break;
       default:
         break;
@@ -171,14 +134,12 @@ const AddEditUser = () => {
   };
 
   const isValidURL = (url) => {
-    // Regex pattern for URL validation
-    const pattern = new RegExp('^(https?:\\/\\/)?' + // protocol
-      '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
-      '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
-      '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
-      '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
-      '(\\#[-a-z\\d_]*)?$', 'i'); // fragment locator
-
+    const pattern = new RegExp('^(https?:\\/\\/)?' +
+      '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' +
+      '((\\d{1,3}\\.){3}\\d{1,3}))' +
+      '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' +
+      '(\\?[;&a-z\\d%_.~+=-]*)?' +
+      '(\\#[-a-z\\d_]*)?$', 'i');
     return !!pattern.test(url);
   };
 
@@ -227,8 +188,29 @@ const AddEditUser = () => {
     }
   };
 
+  const generateTags = async () => {
+    setLoadingTags(true);
+    const API_KEY = "AIzaSyDRlUUReWOBg7x237Y5WtC0bOyBhyMSrUw"; // Replace with your actual API key
+    const genAI = new GoogleGenerativeAI(API_KEY);
+    const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+
+    try {
+      const result = await model.generateContent({
+        contents: [{ role: "user", parts: [{ text: `Generate tags based on the following information: Name: ${name}, Info: ${info}, Business Type: ${businessType}, Industry: ${industrySector}, Additional Notes: ${additionalNotes} THE TAGS MUST BE IN # FORMAT WITH A COMMA AND A SPACE SEPERATING EACH. FOR EXAMPLE, #sample1, #sample2, #sample3, #sample4 ` }] }],
+        generationConfig: { temperature: 0.7, maxOutputTokens: 50 }
+      });
+
+      const generatedTags = result.response.text().split(',').map(tag => tag.trim()).join(', ');
+      setData((prev) => ({ ...prev, tags: generatedTags }));
+    } catch (error) {
+      console.error("Error generating tags: ", error);
+    } finally {
+      setLoadingTags(false);
+    }
+  };
+
   return (
-    <div className="ml-64 p-8"> {/* Adjust margin left to account for sidebar width */}
+    <div className="ml-64 p-8">
       <Grid centered verticalAlign='middle' columns="3" style={{ height: "80vh" }}>
         <Grid.Row>
           <Grid.Column textAlign='center'>
@@ -293,7 +275,7 @@ const AddEditUser = () => {
                       error={errors.businessType ? { content: errors.businessType } : null}
                     />
                     <Form.Input
-                      label="Industry/Sector"
+                      label="Industry Sector"
                       type="text"
                       name="industrySector"
                       value={industrySector}
@@ -330,21 +312,28 @@ const AddEditUser = () => {
                       value={additionalNotes}
                       onChange={handleChange}
                       error={errors.additionalNotes ? { content: errors.additionalNotes } : null}
-                    />
-                    <Form.Input
-                      label="Tags"
-                      type="text"
-                      name="tags"
-                      value={tags}
-                      onChange={handleChange}
-                      error={errors.tags ? { content: errors.tags } : null}
-                    />
-                     <Form.Input
-                      label="Upload"
-                      type="file" 
-                      onChange={(e) => setFile(e.target.files[0])} 
+                                    />
+                <div className="flex items-center">
+                  <Form.Input
+                    className="!inline !flex-grow"
+                    label="Tags"
+                    type="text"
+                    name="tags"
+                    value={tags}
+                    onChange={handleChange}
+                    error={errors.tags ? { content: errors.tags } : null}
                   />
-                    <Button type="submit" primary>{id ? "Update" : "Add"} User</Button>
+                  <button
+                    className="btn btn-primary ml-2 !mt-3"
+                    type="button"
+                    onClick={generateTags}
+                    disabled={loadingTags}
+                  >
+                    <Magicpen size="16" color="#fff" variant="Bold"/>
+                    {loadingTags ? 'Loading...' : 'Generate Tags'}
+                  </button>
+                </div>
+                    <button className='btn btn-primary' type="submit">{id ? "Update" : "Add"} Business</button>
                   </Form>
                 </>
               )}
@@ -353,7 +342,7 @@ const AddEditUser = () => {
         </Grid.Row>
       </Grid>
     </div>
-  )
+  );
 };
 
 export default AddEditUser;
