@@ -163,18 +163,21 @@ const Home = () => {
         }
     };
 
+    // Function to handle change in selected admin
     const handleAdminSelectChange = (event, data) => {
         const selectedAdminValue = data.value;
         setSelectedAdmin(selectedAdminValue);
         setCookie('selectedAdmin', selectedAdminValue);
     };
 
+    // Function to handle change in secret code input
     const handleSecretCodeChange = (event) => {
         const secretCodeValue = event.target.value;
         setSecretCode(secretCodeValue);
         setCookie('secretCode', secretCodeValue);
     };
 
+    // Function to validate admin mode with admin name and code
     const validateAdminMode = (adminName, code) => {
         const admin = admins.find(admin => admin.name === adminName);
         return admin && admin.code === code;
@@ -390,7 +393,7 @@ const Home = () => {
             </div>
         </dialog>
                     <br></br>
-                    <h1 className='text-4xl text-center'>NexusConnect</h1> <br></br>
+                    <h1 className='text-5xl font-bolder text-center'>NexusConnect</h1>
 
                     <div className="flex justify-center items-center w-full pb-3 relative">
   <div className="flex items-center w-9/12 max-w-md bg-gray-100 border-transparent rounded-xl text-lg transition-transform duration-300 transform hover:translate-y-0.5">
@@ -622,11 +625,13 @@ const Home = () => {
                 )}
 
             </div>
+            {adminMode && isAdminModeValid() && (
 <div data-dial-init class="fixed end-6 bottom-6 group">
     <button onClick={() => navigate('/add')} type="button" data-dial-toggle="speed-dial-menu-default" aria-controls="speed-dial-menu-default" aria-expanded="false" class="flex items-center justify-center btn bg-blue-600 text-white hover:bg-blue-700 hover:text-white transition-all rounded-full">
         <Additem size="24" color="#fff" variant="Bold"/>
     </button>
 </div>
+            )}
 
 
         </>
