@@ -360,6 +360,7 @@ const Home = () => {
                         value={secretCode}
                         onChange={handleSecretCodeChange}
                     />
+                <br></br>
                 <button
                     className='btn btn-primary w-full'
                     onClick={() => {
@@ -622,7 +623,7 @@ const Home = () => {
 
             </div>
 <div data-dial-init class="fixed end-6 bottom-6 group">
-    <button onClick={() => navigate('/add')} type="button" data-dial-toggle="speed-dial-menu-default" aria-controls="speed-dial-menu-default" aria-expanded="false" class="flex items-center justify-center btn btn-primary rounded-full">
+    <button onClick={() => navigate('/add')} type="button" data-dial-toggle="speed-dial-menu-default" aria-controls="speed-dial-menu-default" aria-expanded="false" class="flex items-center justify-center btn bg-blue-600 text-white hover:bg-blue-700 hover:text-white transition-all rounded-full">
         <Additem size="24" color="#fff" variant="Bold"/>
     </button>
 </div>

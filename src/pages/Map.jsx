@@ -93,7 +93,6 @@ const Map = () => {
               <p style={textStyle}>Email: <a href={`mailto:${selectedMarker.email}`} style={{ textDecoration: 'none', color: 'inherit' }}>{selectedMarker.email}</a></p>
               <p style={textStyle}>Contact: <button onClick={() => handleCallPrompt(selectedMarker.contact)} style={{ background: 'none', border: 'none', padding: 0, textDecoration: 'underline', cursor: 'pointer', color: 'inherit' }}>{selectedMarker.contact}</button></p>
               <p style={textStyle}>Business Type: {selectedMarker.businessType}</p>
-              <p style={smallTextStyle}>Info: {selectedMarker.info}</p>
             </div>
           </InfoWindow>
         )}

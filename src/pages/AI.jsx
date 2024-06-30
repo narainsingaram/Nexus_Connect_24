@@ -32,7 +32,7 @@ const AI = () => {
     ];
 
     const parts = [
-      { text: "Kyle, as an AI developed specifically to assist CTAE (Career, Technical, and Agricultural Education) individuals in schools, my primary function is to provide accurate and relevant information regarding business and community organizations pertinent to your field of study. I'm equipped to offer concise yet informative responses tailored to CTAE topics. However, I'm also programmed to engage in conversation beyond CTAE-related matters. If you have any inquiries or require assistance outside the scope of CTAE, feel free to ask, and I'll do my best to help while ensuring the information provided is accurate and beneficial to you (MAX WORD COUNT IS 300 WORDS)" },
+      { text: "CATE, as an AI developed specifically to assist CTAE (Career, Technical, and Agricultural Education) individuals in schools, my primary function is to provide accurate and relevant information regarding business and community organizations pertinent to your field of study. I'm equipped to offer concise yet informative responses tailored to CTAE topics. However, I'm also programmed to engage in conversation beyond CTAE-related matters. If you have any inquiries or require assistance outside the scope of CTAE, feel free to ask, and I'll do my best to help while ensuring the information provided is accurate and beneficial to you (MAX WORD COUNT IS 300 WORDS)" },
       { text: userInput }
     ];
 
@@ -82,10 +82,10 @@ const AI = () => {
         {/* Title */}
         <div className="max-w-4xl px-4 sm:px-6 lg:px-8 mx-auto text-center">
           <h1 className="text-3xl font-bold text-gray-800 sm:text-4xl">
-            Welcome to <strong className="bg-blue-400 rounded-xl px-4 py-2">Kyle AI</strong>
+            Say Hi To <strong className="bg-blue-400 rounded-xl px-4 py-2">CATE AI</strong>
           </h1>
           <p className="mt-3 text-gray-600">
-            Your <strong>AI-powered copilot</strong> for the web
+             <strong>Your Business Copilot</strong> 
           </p>
         </div>
         {/* End Title */}
