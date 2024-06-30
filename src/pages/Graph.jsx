@@ -4,7 +4,33 @@ import { collection, getDocs } from 'firebase/firestore';
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, BarElement, ArcElement, Title, Tooltip, Legend } from 'chart.js';
 import { Line, Bar, Pie, Doughnut } from 'react-chartjs-2';
 
+
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, BarElement, ArcElement, Title, Tooltip, Legend);
+
+const options = {
+    responsive: true,
+    maintainAspectRatio: true,
+    plugins: {
+      legend: {
+        position: 'top',
+      },
+      tooltip: {
+        callbacks: {
+          label: function(context) {
+            return `${context.label}: ${context.raw}`;
+          }
+        }
+      }
+    },
+    layout: {
+      padding: {
+        top: 20,
+        bottom: 20,
+        left: 20,
+        right: 20,
+      }
+    }
+  };
 
 const Graph = () => {
     const [userData, setUserData] = useState({
@@ -120,21 +146,16 @@ const Graph = () => {
                     <h2 className="text-xl font-semibold mb-4">Business Types</h2>
                     <Bar data={businessTypeData} options={{ responsive: true, maintainAspectRatio: false }} />
                 </div>
-                
-                <div className="h-[42rem] bg-white p-6 rounded-lg shadow-lg">
-                    <h2 className="text-xl font-semibold mb-4">Industry Sectors</h2>
-                    <Pie data={industrySectorData} options={{ responsive: true, maintainAspectRatio: false }} />
-                </div>
-                
                 <div className="h-[42rem] bg-white p-6 rounded-lg shadow-lg">
                     <h2 className="text-xl font-semibold mb-4">Organization Sizes</h2>
                     <Doughnut data={organizationSizeData} options={{ responsive: true, maintainAspectRatio: false }} />
                 </div>
-                
-                <div className="h-[42rem] bg-white p-6 rounded-lg shadow-lg">
-                    <h2 className="text-xl font-semibold mb-4">User Registrations Over Time</h2>
-                    <Line data={registrationData} options={{ responsive: true, maintainAspectRatio: false }} />
-                </div>
+                <div className="h-[64rem] w-[72rem] bg-white p-6 rounded-lg shadow-lg">
+      <h2 className="text-xl font-semibold mb-4">Industry Sectors</h2>
+      <div className="relative h-full w-full">
+        <Pie data={industrySectorData} options={options} />
+      </div>
+    </div>
             </div>
         </div>
     );
