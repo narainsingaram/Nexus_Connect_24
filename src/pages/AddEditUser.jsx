@@ -339,6 +339,11 @@ const AddEditUser = () => {
                       onChange={handleChange}
                       error={errors.tags ? { content: errors.tags } : null}
                     />
+                     <Form.Input
+                      label="Upload"
+                      type="file" 
+                      onChange={(e) => setFile(e.target.files[0])} 
+                  />
                     <Button type="submit" primary>{id ? "Update" : "Add"} User</Button>
                   </Form>
                 </>
