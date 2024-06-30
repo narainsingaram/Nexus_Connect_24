@@ -14,6 +14,8 @@ import 'flowbite';
 import autoTable from 'jspdf-autotable';
 import Cookies from 'js-cookie';
 
+
+
 import { useTable, useGlobalFilter, useFilters, useSortBy } from 'react-table';
 
 const admins = [
@@ -384,7 +386,7 @@ const Home = () => {
             </div>
         </dialog>
                     <br></br>
-<div className="flex justify-center items-center w-full py-3 relative">
+                    <div className="flex justify-center items-center w-full py-3 relative">
   <div className="flex items-center w-full max-w-md bg-gray-100 border-transparent rounded-xl text-lg dark:border-transparent dark:text-gray-400 dark:focus:ring-gray-600 transition-transform duration-300 transform hover:translate-y-0.5">
     <SearchNormal size="24" color="#3b82f6" variant="Bulk" className="ml-4"/>
     <input
@@ -428,7 +430,6 @@ const Home = () => {
     </div>
   )}
 </div>
-
 
 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-6">
     <div className="relative">
@@ -592,7 +593,7 @@ const Home = () => {
      ))}
   </div>
   <div class="mt-auto flex border-t border-gray-200 divide-x divide-gray-200 dark:border-neutral-700 dark:divide-neutral-700">
-        <span class="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-es-xl bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-800"onClick={() => handleModal(item)} loading={loading} href="#">
+        <span class="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-es-xl bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-800" onClick={() => handleModal(item)} href="#">
           View
         </span>
         {adminMode && isAdminModeValid() && (
