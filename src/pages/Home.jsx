@@ -163,18 +163,21 @@ const Home = () => {
         }
     };
 
+    // Function to handle change in selected admin
     const handleAdminSelectChange = (event, data) => {
         const selectedAdminValue = data.value;
         setSelectedAdmin(selectedAdminValue);
         setCookie('selectedAdmin', selectedAdminValue);
     };
 
+    // Function to handle change in secret code input
     const handleSecretCodeChange = (event) => {
         const secretCodeValue = event.target.value;
         setSecretCode(secretCodeValue);
         setCookie('secretCode', secretCodeValue);
     };
 
+    // Function to validate admin mode with admin name and code
     const validateAdminMode = (adminName, code) => {
         const admin = admins.find(admin => admin.name === adminName);
         return admin && admin.code === code;
@@ -621,11 +624,13 @@ const Home = () => {
                 )}
 
             </div>
+            {adminMode && isAdminModeValid() && (
 <div data-dial-init class="fixed end-6 bottom-6 group">
     <button onClick={() => navigate('/add')} type="button" data-dial-toggle="speed-dial-menu-default" aria-controls="speed-dial-menu-default" aria-expanded="false" class="flex items-center justify-center btn btn-primary rounded-full">
         <Additem size="24" color="#fff" variant="Bold"/>
     </button>
 </div>
+            )}
 
 
         </>
