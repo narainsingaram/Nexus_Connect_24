@@ -88,17 +88,10 @@ const ModalComp = ({ open, setOpen, img, name, info, email, contact, id, handleD
                         </button>
                         <button
                             type="button"
-                            className="btn btn-accen mx-2"
+                            className="btn btn-danger mx-2"
                             onClick={() => setOpen(false)}
                         >
                             Cancel
-                        </button>
-                        <button
-                            type="button"
-                            className="btn btn-error mx-2"
-                            onClick={() => handleDelete(id)}
-                        >
-                            Delete
                         </button>
                     </div>
                 </div>

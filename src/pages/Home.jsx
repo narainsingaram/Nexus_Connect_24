@@ -624,11 +624,13 @@ const Home = () => {
                 )}
 
             </div>
+            {adminMode && isAdminModeValid() && (
 <div data-dial-init class="fixed end-6 bottom-6 group">
     <button onClick={() => navigate('/add')} type="button" data-dial-toggle="speed-dial-menu-default" aria-controls="speed-dial-menu-default" aria-expanded="false" class="flex items-center justify-center btn btn-primary rounded-full">
         <Additem size="24" color="#fff" variant="Bold"/>
     </button>
 </div>
+            )}
 
 
         </>
