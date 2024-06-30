@@ -386,8 +386,10 @@ const Home = () => {
             </div>
         </dialog>
                     <br></br>
-                    <div className="flex justify-center items-center w-full py-3 relative">
-  <div className="flex items-center w-full max-w-md bg-gray-100 border-transparent rounded-xl text-lg dark:border-transparent dark:text-gray-400 dark:focus:ring-gray-600 transition-transform duration-300 transform hover:translate-y-0.5">
+                    <h1 className='text-4xl text-center'>NexusConnect</h1> <br></br>
+
+                    <div className="flex justify-center items-center w-full pb-3 relative">
+  <div className="flex items-center w-9/12 max-w-md bg-gray-100 border-transparent rounded-xl text-lg transition-transform duration-300 transform hover:translate-y-0.5">
     <SearchNormal size="24" color="#3b82f6" variant="Bulk" className="ml-4"/>
     <input
       placeholder="Search..." 
