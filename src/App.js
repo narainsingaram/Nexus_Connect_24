@@ -6,7 +6,7 @@ import AddEditUser from './pages/AddEditUser';
 import Map from './pages/Map';
 import AI from './pages/AI';
 import Graph from './pages/Graph';
-import Sidebar from './components/Sidebar.jsx';
+import Sidebar from './components/sidebar.jsx';
 
 function App() {
   return (

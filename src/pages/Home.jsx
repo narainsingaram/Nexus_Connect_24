@@ -8,7 +8,7 @@ import Spinner from '../components/Spinner';
 import { Image } from 'primereact/image';
 import { Code } from "@nextui-org/react";
 import { Chip } from 'primereact/chip';
-import { Edit, SearchNormal } from 'iconsax-react';
+import { Edit, SearchNormal, Additem, Brush2, ExportCurve } from 'iconsax-react';
 import jsPDF from 'jspdf';
 import 'flowbite';
 import autoTable from 'jspdf-autotable';
@@ -493,17 +493,29 @@ const Home = () => {
 <div className="mt-6 space-x-4">
     <button
         onClick={generatePDF}
-        className="btn btn-primary"
+        className="btn btn-primary mr-4"
     >
+        <Brush2 size="24" color="#fff" variant="Bold" />
         Generate PDF
     </button>
     <button
         onClick={exportData}
-        className="btn btn-warning"
+        className="btn btn-primary mx-4"
     >
+        <ExportCurve size="24" color="#fff" variant="Bold" />
         Export as JSON
     </button>
 </div>
+
+
+<div class="dropdown">
+  <div tabindex="0" role="button" class="btn m-1">Click</div>
+  <ul tabindex="0" class="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
+  <li><button><Brush2 size="24" color="#fff" variant="Bold"/>Generate PDF</button></li>
+  <li><button><ExportCurve size="24" color="#fff" variant="Bold"/> Export as JSON</button></li>
+  </ul>
+</div>
+
 
                                 
             <div className="flex justify-center items-center space-x-4 mt-4">
@@ -556,78 +568,62 @@ const Home = () => {
                 ) : (
 <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 m-8 rounded-2xl'>
   {filteredUsers.map((item) => (
-<div key={item.id}>
-<section className="max-w-sm rounded-2xl overflow-hidden shadow-lg">
-  <img className="w-full h-56" src={item.img} alt="Sunset in the mountains" />
-  <div className="px-6 py-4">
-    <span className='inline-block text-red-600'>{item.businessType}</span>
-    <div className="font-bold text-xl mb-2">{item.name}</div>
-    <p className="text-gray-700 ">
-      {item.info}
-    </p>
-    <p className="text-sm text-gray-500">
-              <span className="font-semibold">Industry Sector:</span> {item.industrySector}
-            </p>
-            <p className="text-sm text-gray-500">
-              <span className="font-semibold">Organization Size:</span> {item.organizationSize}
-            </p>
-            <p className="text-sm text-gray-500">
-              <span className="font-semibold">Timestamp:</span> {item.timestamp}
-            </p>
-  </div>
-  <div className="px-6 pt-4 pb-2">
-    {item.tags.map((tag, index) => (
-        <span key={index} className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
-            {tag}
-        </span>
-     ))}
-  </div>
-  <div class="mt-auto flex border-t border-gray-200 divide-x divide-gray-200 dark:border-neutral-700 dark:divide-neutral-700">
-        <span class="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-es-xl bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-800" onClick={() => handleModal(item)} href="#">
-          View
-        </span>
-        {adminMode && isAdminModeValid() && (
-        <span class="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-ee-xl bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-800" onClick={() => navigate(`/update/${item.id}`)} href="#">
-          Update
-        </span>
+    <div key={item.id}>
+      <section className="max-w-sm rounded-2xl overflow-hidden shadow-lg">
+        <img className="w-full h-56" src={item.img} alt="Sunset in the mountains" />
+        <div className="px-6 py-4 max-h-60 max-w-lg overflow-y-auto">
+          <span className='inline-block text-red-600'>{item.businessType}</span>
+          <div className="font-bold text-xl mb-2">{item.name}</div>
+          <p className="text-gray-700">
+            {item.info}
+          </p>
+          <p className="text-sm text-gray-500">
+            <span className="font-semibold">Industry Sector:</span> {item.industrySector}
+          </p>
+          <p className="text-sm text-gray-500">
+            <span className="font-semibold">Organization Size:</span> {item.organizationSize}
+          </p>
+          <p className="text-sm text-gray-500">
+            <span className="font-semibold">Timestamp:</span> {item.timestamp}
+          </p>
+        </div>
+        <div className="px-6 pt-4 pb-2">
+          {item.tags.map((tag, index) => (
+            <span key={index} className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
+              {tag}
+            </span>
+          ))}
+        </div>
+        <div className="mt-auto flex border-t border-gray-200 divide-x divide-gray-200 dark:border-neutral-700 dark:divide-neutral-700">
+          <span className="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-es-xl bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-800" onClick={() => handleModal(item)} loading={loading} href="#">
+            View
+          </span>
+          {adminMode && isAdminModeValid() && (
+            <>
+              <span className="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-ee-xl bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-800" onClick={() => navigate(`/update/${item.id}`)} href="#">
+                Update
+              </span>
+              <span className="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-ee-xl bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-800" onClick={() => handleDelete(item.id)} href="#">
+                Delete
+              </span>
+            </>
+          )}
+        </div>
+        {open && (
+          <ModalComp open={open} setOpen={setOpen} handleDelete={handleDelete} {...user} />
         )}
-        {adminMode && isAdminModeValid() && (
-        <span class="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-ee-xl bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-800" onClick={() => handleDelete(item.id)} href="#">
-          Delete
-        </span>
-        )}
-      </div>
-      {open && (
-        <ModalComp open={open} setOpen={setOpen} handleDelete={handleDelete} {...user} />
-    )}
-
-</section>
+      </section>
     </div>
-
   ))}
-  </div>
+</div>
+
                     
                 )}
 
             </div>
 <div data-dial-init class="fixed end-6 bottom-6 group">
-    <div id="speed-dial-menu-default" class="flex flex-col items-center hidden mb-4 space-y-2">
-        <button type="button" data-tooltip-target="tooltip-share" data-tooltip-placement="left" class="flex justify-center items-center w-[52px] h-[52px] text-gray-500 hover:text-gray-900 bg-white rounded-full border border-gray-200 dark:border-gray-600 shadow-sm dark:hover:text-white dark:text-gray-400 hover:bg-gray-50 dark:bg-gray-700 dark:hover:bg-gray-600 focus:ring-4 focus:ring-gray-300 focus:outline-none dark:focus:ring-gray-400">
-            <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 18">
-                <path d="M14.419 10.581a3.564 3.564 0 0 0-2.574 1.1l-4.756-2.49a3.54 3.54 0 0 0 .072-.71 3.55 3.55 0 0 0-.043-.428L11.67 6.1a3.56 3.56 0 1 0-.831-2.265c.006.143.02.286.043.428L6.33 6.218a3.573 3.573 0 1 0-.175 4.743l4.756 2.491a3.58 3.58 0 1 0 3.508-2.871Z"/>
-            </svg>
-            <span class="sr-only">Share</span>
-        </button>
-        <div id="tooltip-share" role="tooltip" class="absolute z-10 invisible inline-block w-auto px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
-            Share
-            <div class="tooltip-arrow" data-popper-arrow></div>
-        </div>
-    </div>
-    <button type="button" data-dial-toggle="speed-dial-menu-default" aria-controls="speed-dial-menu-default" aria-expanded="false" class="flex items-center justify-center text-white bg-blue-700 rounded-full w-14 h-14 hover:bg-blue-800 dark:bg-blue-600 dark:hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 focus:outline-none dark:focus:ring-blue-800">
-        <svg class="w-5 h-5 transition-transform group-hover:rotate-45" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
-            <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 1v16M1 9h16"/>
-        </svg>
-        <span class="sr-only">Open actions menu</span>
+    <button onClick={() => navigate('/add')} type="button" data-dial-toggle="speed-dial-menu-default" aria-controls="speed-dial-menu-default" aria-expanded="false" class="flex items-center justify-center btn btn-primary rounded-full">
+        <Additem size="24" color="#fff" variant="Bold"/>
     </button>
 </div>
 

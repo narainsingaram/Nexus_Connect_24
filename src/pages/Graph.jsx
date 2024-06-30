@@ -113,25 +113,25 @@ const Graph = () => {
 
     return (
         <div className="container !ml-64 p-4">
-            <h1 className="text-3xl font-bold mb-8">Data Visualization Dashboard</h1>
+            <h1 className="text-3xl font-bold mb-8">Data Visualization</h1>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div className="bg-white p-6 rounded-lg shadow-lg">
+                <div className="h-[42rem] bg-white p-6 rounded-lg shadow-lg">
                     <h2 className="text-xl font-semibold mb-4">Business Types</h2>
                     <Bar data={businessTypeData} options={{ responsive: true, maintainAspectRatio: false }} />
                 </div>
                 
-                <div className="bg-white p-6 rounded-lg shadow-lg">
+                <div className="h-[42rem] bg-white p-6 rounded-lg shadow-lg">
                     <h2 className="text-xl font-semibold mb-4">Industry Sectors</h2>
                     <Pie data={industrySectorData} options={{ responsive: true, maintainAspectRatio: false }} />
                 </div>
                 
-                <div className="bg-white p-6 rounded-lg shadow-lg">
+                <div className="h-[42rem] bg-white p-6 rounded-lg shadow-lg">
                     <h2 className="text-xl font-semibold mb-4">Organization Sizes</h2>
                     <Doughnut data={organizationSizeData} options={{ responsive: true, maintainAspectRatio: false }} />
                 </div>
                 
-                <div className="bg-white p-6 rounded-lg shadow-lg">
+                <div className="h-[42rem] bg-white p-6 rounded-lg shadow-lg">
                     <h2 className="text-xl font-semibold mb-4">User Registrations Over Time</h2>
                     <Line data={registrationData} options={{ responsive: true, maintainAspectRatio: false }} />
                 </div>
