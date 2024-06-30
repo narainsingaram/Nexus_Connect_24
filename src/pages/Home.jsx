@@ -433,54 +433,41 @@ const Home = () => {
   )}
 </div>
 
-<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
-    <div className="relative">
-        <label htmlFor="businessType" className="block text-sm font-semibold text-gray-800 mb-2">Business Type</label>
-        <select
-            id="businessType"
-            multiple
-            className="block w-full pl-4 pr-12 py-3 text-sm border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent shadow-sm transition"
-            onChange={(e) => handleBusinessTypeChange(e, { value: Array.from(e.target.selectedOptions, option => option.value) })}
-            value={selectedBusinessTypes}
-        >
-            {businessTypes.map(type => (
-                <option key={type} value={type}>{type}</option>
-            ))}
-        </select>
-    </div>
-
-    <div className="relative">
-        <label htmlFor="industrySector" className="block text-sm font-semibold text-gray-800 mb-2">Industry Sector</label>
-        <select
-            id="industrySector"
-            multiple
-            className="block w-full pl-4 pr-12 py-3 text-sm border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent shadow-sm transition"
-            onChange={(e) => handleIndustrySectorChange(e, { value: Array.from(e.target.selectedOptions, option => option.value) })}
-            value={selectedIndustrySectors}
-        >
-            {industrySectors.map(sector => (
-                <option key={sector} value={sector}>{sector}</option>
-            ))}
-        </select>
-    </div>
-
-    <div className="relative">
-        <label htmlFor="sortOption" className="block text-sm font-semibold text-gray-800 mb-2">Sort by</label>
-        <select
-            id="sortOption"
-            className="block w-full pl-4 pr-12 py-3 text-sm border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent shadow-sm transition"
-            onChange={handleSortChange}
-            value={sortOption}
-        >
-            <option value="">Default</option>
-            <option value="organizationSizeAsc">Organization Size (Ascending)</option>
-            <option value="organizationSizeDesc">Organization Size (Descending)</option>
-            <option value="timestampDesc">Most Recent</option>
-            <option value="timestampAsc">Oldest</option>
-            <option value="nameAsc">Name (A-Z)</option>
-            <option value="nameDesc">Name (Z-A)</option>
-        </select>
-    </div>
+<div className="grid grid-cols-3 gap-6 mt-8">
+    <Dropdown
+                        placeholder='Filter by business type...'
+                        className=''
+                        multiple
+                        selection
+                        options={businessTypes.map(type => ({ key: type, text: type, value: type }))}
+                        onChange={handleBusinessTypeChange}
+                        value={selectedBusinessTypes}
+                        style={{ marginTop: '10px' }}
+                    />
+                    <Dropdown
+                        placeholder='Filter by industry sector...'
+                        multiple
+                        selection
+                        options={industrySectors.map(sector => ({ key: sector, text: sector, value: sector }))}
+                        onChange={handleIndustrySectorChange}
+                        value={selectedIndustrySectors}
+                        style={{ marginTop: '10px' }}
+                    />
+                                    <Dropdown
+                        placeholder='Sort by...'
+                        selection
+                        options={[
+                            { key: 'organizationSizeAsc', text: 'Organization Size (Ascending)', value: 'organizationSizeAsc' },
+                            { key: 'organizationSizeDesc', text: 'Organization Size (Descending)', value: 'organizationSizeDesc' },
+                            { key: 'timestampAsc', text: 'Most Recent', value: 'timestampDesc' },
+                            { key: 'timestampDesc', text: 'Oldest', value: 'timestampAsc' },
+                            { key: 'nameAsc', text: 'Name (A-Z)', value: 'nameAsc' },
+                            { key: 'nameDesc', text: 'Name (Z-A)', value: 'nameDesc' }
+                        ]}
+                        onChange={handleSortChange}
+                        value={sortOption}
+                        style={{ marginTop: '10px' }}
+                    />
 </div>
 
 <div className="mt-8">
