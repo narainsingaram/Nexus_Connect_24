@@ -386,7 +386,7 @@ const Home = () => {
             </div>
         </dialog>
                     <br></br>
-                    <h1 className='text-4xl text-center'>NexusConnect</h1> <br></br>
+                    <h1 className='text-5xl font-bolder text-center'>NexusConnect</h1>
 
                     <div className="flex justify-center items-center w-full pb-3 relative">
   <div className="flex items-center w-9/12 max-w-md bg-gray-100 border-transparent rounded-xl text-lg transition-transform duration-300 transform hover:translate-y-0.5">
@@ -475,7 +475,7 @@ const Home = () => {
     <select
         id="reportFields"
         multiple
-        className="block w-full pl-4 pr-12 py-3 text-sm border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent shadow-sm transition"
+        className="block w-full pl-4 pr-12 py-3 h-44 text-sm border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent shadow-sm transition"
         onChange={(e) => setSelectedFields(Array.from(e.target.selectedOptions, option => option.value))}
         value={selectedFields}
     >
