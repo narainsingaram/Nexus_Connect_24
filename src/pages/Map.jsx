@@ -9,8 +9,8 @@ const containerStyle = {
 };
 
 const center = {
-  lat: -3.745,
-  lng: -38.523
+  lat: 39.8283,
+  lng: -98.5795
 };
 
 const Map = () => {
@@ -37,7 +37,7 @@ const Map = () => {
 
   return (
     <LoadScript googleMapsApiKey="AIzaSyAFq69d34t2H2ufrWFgwJYIjqPYZGoq03w">
-      <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={10}>
+      <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={4}>
         {markers.map(marker => (
           <Marker
             key={marker.id}
