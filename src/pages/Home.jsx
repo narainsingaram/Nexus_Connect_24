@@ -8,7 +8,7 @@ import Spinner from '../components/Spinner';
 import { Image } from 'primereact/image';
 import { Code } from "@nextui-org/react";
 import { Chip } from 'primereact/chip';
-import { Edit, SearchNormal, Additem, Brush2, ExportCurve } from 'iconsax-react';
+import { Edit, SearchNormal, Additem, Brush2, ExportCurve, CardEdit, TableDocument } from 'iconsax-react';
 import jsPDF from 'jspdf';
 import 'flowbite';
 import autoTable from 'jspdf-autotable';
@@ -393,10 +393,10 @@ const Home = () => {
             </div>
         </dialog>
                     <br></br>
-                    <h1 className='text-5xl font-bolder text-center'>NexusConnect</h1>
+                    <h1 className='!text-5xl !mb-4 font-bolder text-center'>NexusConnect</h1>
 
-                    <div className="flex justify-center items-center w-full pb-3 relative">
-  <div className="flex items-center w-9/12 max-w-md bg-gray-100 border-transparent rounded-xl text-lg transition-transform duration-300 transform hover:translate-y-0.5">
+<div className="flex justify-center items-center w-full pb-3 relative">
+  <div className="flex items-center !w-11/12 max-w-md bg-gray-100 border-transparent rounded-xl text-lg transition-transform duration-300 transform hover:translate-y-0.5">
     <SearchNormal size="24" color="#3b82f6" variant="Bulk" className="ml-4"/>
     <input
       placeholder="Search..." 
@@ -524,15 +524,17 @@ const Home = () => {
             <div className="flex justify-center items-center space-x-4 mt-4">
                 <button
                     onClick={() => setTableView(false)}
-                    className={`py-3 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border ${!tableView ? 'bg-blue-600 text-white' : 'bg-white text-gray-800 border-gray-200'} hover:bg-blue-700 hover:text-white transition-all`}
+                    className={`py-3 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border ${!tableView ? 'bg-blue-200 text-black' : 'bg-white text-gray-800 border-gray-200'} hover:bg-blue-700 hover:text-white transition-all`}
                 >
+                    <CardEdit size="16" color="#000" variant="Bold"/>
                     Card View
                 </button>
                 <div></div>
                 <button
                     onClick={() => setTableView(true)}
-                    className={`py-3 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border ${tableView ? 'bg-blue-600 text-white' : 'bg-white text-gray-800 border-gray-200'} hover:bg-blue-700 hover:text-white transition-all`}
+                    className={`py-3 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border ${tableView ? 'bg-blue-200 text-black' : 'bg-white text-gray-800 border-gray-200'} hover:bg-blue-700 hover:text-white transition-all`}
                 >
+                <TableDocument size="16" color="#000" variant="Bold"/>
                     Table View
                 </button>
             </div>
@@ -576,9 +578,9 @@ const Home = () => {
       <section className="max-w-sm rounded-2xl overflow-hidden shadow-lg">
         <img className="w-full h-56" src={item.img} alt="Sunset in the mountains" />
         <div className="px-6 py-4 max-h-60 max-w-lg overflow-y-auto">
-          <span className='inline-block text-red-600'>{item.businessType}</span>
-          <div className="font-bold text-xl mb-2">{item.name}</div>
-          <p className="text-gray-700">
+          <span className='inline-block text-red-600'>{item.businessType}</span> <br></br>
+          <a href={item.website} className="font-bold text-2xl !mb-2 hover:underline">{item.name}</a>
+          <p className="text-gray-700 !mt-2">
             {item.info}
           </p>
           <p className="text-sm text-gray-500">
