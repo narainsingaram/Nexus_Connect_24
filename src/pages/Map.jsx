@@ -14,8 +14,8 @@ const center = {
 };
 
 const infoWindowStyle = {
-  padding: '10px',
-  maxWidth: '200px',
+  padding: '8px',
+  maxWidth: '300px', // Increase maxWidth if necessary
   textAlign: 'center',
   borderRadius: '8px',
   backgroundColor: '#fff',
@@ -25,12 +25,19 @@ const infoWindowStyle = {
 const titleStyle = {
   fontSize: '18px',
   fontWeight: 'bold',
-  marginBottom: '8px',
+  marginBottom: '4px',
 };
 
 const textStyle = {
   fontSize: '14px',
-  margin: '4px 0',
+  margin: '2px 0',
+};
+
+const imageStyle = {
+  maxWidth: '100%',
+  height: 'auto',
+  borderRadius: '8px',
+  marginBottom: '8px',
 };
 
 const Map = () => {
@@ -73,6 +80,7 @@ const Map = () => {
           >
             <div style={infoWindowStyle}>
               <h2 style={titleStyle}>{selectedMarker.name}</h2>
+              {selectedMarker.img && <img src={selectedMarker.img} alt={selectedMarker.name} style={imageStyle} />}
               <p style={textStyle}>Email: {selectedMarker.email}</p>
               <p style={textStyle}>Contact: {selectedMarker.contact}</p>
             </div>
@@ -81,6 +89,6 @@ const Map = () => {
       </GoogleMap>
     </LoadScript>
   );
-}
+};
 
 export default Map;
