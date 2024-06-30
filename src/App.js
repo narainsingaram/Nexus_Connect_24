@@ -5,6 +5,7 @@ import Home from './pages/Home';
 import AddEditUser from './pages/AddEditUser';
 import Map from './pages/Map';
 import AI from './pages/AI';
+import Graph from './pages/Graph';
 import Sidebar from './components/sidebar.jsx';
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/add" element={<AddEditUser />} />
+          <Route path="/graph" element={<Graph />} />
           <Route path="/update/:id" element={<AddEditUser />} />
           <Route path="/map" element={<Map />} />
           <Route path="/ai" element={<AI />} />
