@@ -163,18 +163,21 @@ const Home = () => {
         }
     };
 
+    // Function to handle change in selected admin
     const handleAdminSelectChange = (event, data) => {
         const selectedAdminValue = data.value;
         setSelectedAdmin(selectedAdminValue);
         setCookie('selectedAdmin', selectedAdminValue);
     };
 
+    // Function to handle change in secret code input
     const handleSecretCodeChange = (event) => {
         const secretCodeValue = event.target.value;
         setSecretCode(secretCodeValue);
         setCookie('secretCode', secretCodeValue);
     };
 
+    // Function to validate admin mode with admin name and code
     const validateAdminMode = (adminName, code) => {
         const admin = admins.find(admin => admin.name === adminName);
         return admin && admin.code === code;
