@@ -2,14 +2,15 @@ import React, { useState } from 'react';
 import { MdSpaceDashboard } from "react-icons/md";
 import { FaMapMarkedAlt } from "react-icons/fa";
 import { GiBrain } from "react-icons/gi";
+import { useNavigate } from 'react-router-dom';
 
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const navigate = useNavigate();
 
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
   };
-
   return (
     <>
       <button
@@ -18,7 +19,6 @@ const Sidebar = () => {
         onClick={toggleSidebar}
       >
         <span className="sr-only">Open sidebar</span>
-        {/* You can add an icon or text here to indicate the button's purpose */}
       </button>
 
       <aside
@@ -29,7 +29,7 @@ const Sidebar = () => {
         aria-label="Sidebar"
       >
         <div className="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
-          <a className="flex items-center ps-2.5 mb-5" href="/">
+          <a className="flex items-center ps-2.5 mb-5">
             <img src="https://flowbite.com/docs/images/logo.svg" className="h-6 me-3 sm:h-7" alt="Flowbite Logo" />
             <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white">Nexus Connect</span>
           </a>
@@ -39,19 +39,25 @@ const Sidebar = () => {
                 <MdSpaceDashboard className="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
                 <span className="ms-3">Dashboard</span>
               </a>
-            </li>   
+            </li>
             <li>
               <a href="./map" className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                 <FaMapMarkedAlt className="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
-                <span className="flex-1 ms-3 whitespace-nowrap">Map</span>
+                <span className="ms-3">Map</span>
               </a>
             </li>
             <li>
-              <a href="./" className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+              <a href="/ai" className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                 <GiBrain className="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
                 <span className="ms-3">AI Chat</span>
               </a>
-            </li>  
+            </li>
+            <li>
+              <button  className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                <GiBrain className="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
+                <span onClick={() => navigate('/add')} className="ms-3">Add Business</span>
+              </button>
+            </li>
           </ul>
         </div>
       </aside>
