@@ -14,8 +14,6 @@ import 'flowbite';
 import autoTable from 'jspdf-autotable';
 import Cookies from 'js-cookie';
 
-
-
 import { useTable, useGlobalFilter, useFilters, useSortBy } from 'react-table';
 
 const admins = [
@@ -41,6 +39,8 @@ const Home = () => {
     const [sortOption, setSortOption] = useState('');
     const [selectedFields, setSelectedFields] = useState([]);
     const [tableView, setTableView] = useState(false); // Added state for view toggle
+    const [autocompleteSuggestions, setAutocompleteSuggestions] = useState([]);
+    const [isListening, setIsListening] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -102,6 +102,38 @@ const Home = () => {
         setUser(item);
     };
 
+    const handleVoiceSearch = () => {
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        if (SpeechRecognition) {
+          const recognition = new SpeechRecognition();
+          recognition.continuous = false;
+          recognition.lang = 'en-US';
+      
+          recognition.onstart = () => {
+            setIsListening(true);
+          };
+      
+          recognition.onresult = (event) => {
+            const transcript = event.results[0][0].transcript;
+            setSearchTerm(transcript);
+            handleSearchChange({ target: { value: transcript } });
+          };
+      
+          recognition.onerror = (event) => {
+            console.error('Speech recognition error', event.error);
+            setIsListening(false);
+          };
+      
+          recognition.onend = () => {
+            setIsListening(false);
+          };
+      
+          recognition.start();
+        } else {
+          alert('Speech recognition is not supported in your browser.');
+        }
+      };
+
     const handleDelete = async (id) => {
         if (window.confirm("Are you sure to delete this user?")) {
             try {
@@ -157,6 +189,14 @@ const Home = () => {
     const handleSearchChange = (event) => {
         const searchTerm = event.target.value.toLowerCase();
         setSearchTerm(searchTerm);
+        
+        // Update autocomplete suggestions
+        const suggestions = users.filter(user => 
+            user.name.toLowerCase().includes(searchTerm) ||
+            user.businessType.toLowerCase().includes(searchTerm)
+        ).slice(0, 5); // Limit to 5 suggestions
+        setAutocompleteSuggestions(suggestions);
+        
         filterUsers(searchTerm, selectedBusinessTypes, selectedIndustrySectors, sortOption);
     };
 
@@ -344,7 +384,7 @@ const Home = () => {
             </div>
         </dialog>
                     <br></br>
-<div className="flex justify-center items-center w-full py-3">
+<div className="flex justify-center items-center w-full py-3 relative">
   <div className="flex items-center w-full max-w-md bg-gray-100 border-transparent rounded-xl text-lg dark:border-transparent dark:text-gray-400 dark:focus:ring-gray-600 transition-transform duration-300 transform hover:translate-y-0.5">
     <SearchNormal size="24" color="#3b82f6" variant="Bulk" className="ml-4"/>
     <input
@@ -353,8 +393,42 @@ const Home = () => {
       value={searchTerm} 
       onChange={handleSearchChange} 
     />
+    <button
+      onClick={handleVoiceSearch}
+      className={`p-2 rounded-full mr-2 focus:outline-none ${isListening ? 'bg-red-500' : 'bg-blue-500'} text-white`}
+    >
+      {isListening ? (
+        <span className="animate-pulse">●</span>
+      ) : (
+        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
+        </svg>
+      )}
+    </button>
   </div>
+  {autocompleteSuggestions.length > 0 && (
+    <div className="absolute z-10 w-full max-w-md mt-1 bg-white rounded-md shadow-lg top-full">
+      {autocompleteSuggestions.map((suggestion, index) => (
+        <div 
+          key={index} 
+          className="flex items-center p-2 hover:bg-gray-100 cursor-pointer"
+          onClick={() => {
+            setSearchTerm(suggestion.name);
+            setAutocompleteSuggestions([]);
+            filterUsers(suggestion.name, selectedBusinessTypes, selectedIndustrySectors, sortOption);
+          }}
+        >
+          <img src={suggestion.img} alt={suggestion.name} className="w-10 h-10 rounded-full mr-3" />
+          <div>
+            <div className="font-semibold">{suggestion.name}</div>
+            <div className="text-sm text-gray-500">{suggestion.businessType}</div>
+          </div>
+        </div>
+      ))}
+    </div>
+  )}
 </div>
+
 
 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-6">
     <div className="relative">
@@ -428,13 +502,13 @@ const Home = () => {
 <div className="mt-6 space-x-4">
     <button
         onClick={generatePDF}
-        className="py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+        className="btn btn-primary"
     >
         Generate PDF
     </button>
     <button
         onClick={exportData}
-        className="py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+        className="btn btn-warning"
     >
         Export as JSON
     </button>
