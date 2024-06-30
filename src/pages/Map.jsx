@@ -40,6 +40,11 @@ const imageStyle = {
   marginBottom: '8px',
 };
 
+const smallTextStyle = {
+  ...textStyle,
+  fontSize: '12px',
+};
+
 const Map = () => {
   const [markers, setMarkers] = useState([]);
   const [selectedMarker, setSelectedMarker] = useState(null);
@@ -62,6 +67,10 @@ const Map = () => {
     fetchMarkers();
   }, []);
 
+  const handleCallPrompt = (contact) => {
+    window.prompt(`Call ${contact}`);
+  };
+
   return (
     <LoadScript googleMapsApiKey="AIzaSyDiyzlScpC-8pjM5LvQaHgvMHknDNfvYHQ">
       <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={4}>
@@ -81,8 +90,10 @@ const Map = () => {
             <div style={infoWindowStyle}>
               <h2 style={titleStyle}>{selectedMarker.name}</h2>
               {selectedMarker.img && <img src={selectedMarker.img} alt={selectedMarker.name} style={imageStyle} />}
-              <p style={textStyle}>Email: {selectedMarker.email}</p>
-              <p style={textStyle}>Contact: {selectedMarker.contact}</p>
+              <p style={textStyle}>Email: <a href={`mailto:${selectedMarker.email}`} style={{ textDecoration: 'none', color: 'inherit' }}>{selectedMarker.email}</a></p>
+              <p style={textStyle}>Contact: <button onClick={() => handleCallPrompt(selectedMarker.contact)} style={{ background: 'none', border: 'none', padding: 0, textDecoration: 'underline', cursor: 'pointer', color: 'inherit' }}>{selectedMarker.contact}</button></p>
+              <p style={textStyle}>Business Type: {selectedMarker.businessType}</p>
+              <p style={smallTextStyle}>Info: {selectedMarker.info}</p>
             </div>
           </InfoWindow>
         )}
