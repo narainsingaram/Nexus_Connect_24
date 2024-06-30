@@ -565,56 +565,55 @@ const Home = () => {
                 ) : (
 <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 m-8 rounded-2xl'>
   {filteredUsers.map((item) => (
-<div key={item.id}>
-<section className="max-w-sm rounded-2xl overflow-hidden shadow-lg">
-  <img className="w-full h-56" src={item.img} alt="Sunset in the mountains" />
-  <div className="px-6 py-4">
-    <span className='inline-block text-red-600'>{item.businessType}</span>
-    <div className="font-bold text-xl mb-2">{item.name}</div>
-    <p className="text-gray-700 ">
-      {item.info}
-    </p>
-    <p className="text-sm text-gray-500">
-              <span className="font-semibold">Industry Sector:</span> {item.industrySector}
-            </p>
-            <p className="text-sm text-gray-500">
-              <span className="font-semibold">Organization Size:</span> {item.organizationSize}
-            </p>
-            <p className="text-sm text-gray-500">
-              <span className="font-semibold">Timestamp:</span> {item.timestamp}
-            </p>
-  </div>
-  <div className="px-6 pt-4 pb-2">
-    {item.tags.map((tag, index) => (
-        <span key={index} className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
-            {tag}
-        </span>
-     ))}
-  </div>
-  <div class="mt-auto flex border-t border-gray-200 divide-x divide-gray-200 dark:border-neutral-700 dark:divide-neutral-700">
-        <span class="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-es-xl bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-800"onClick={() => handleModal(item)} loading={loading} href="#">
-          View
-        </span>
-        {adminMode && isAdminModeValid() && (
-        <span class="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-ee-xl bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-800" onClick={() => navigate(`/update/${item.id}`)} href="#">
-          Update
-        </span>
+    <div key={item.id}>
+      <section className="max-w-sm rounded-2xl overflow-hidden shadow-lg">
+        <img className="w-full h-56" src={item.img} alt="Sunset in the mountains" />
+        <div className="px-6 py-4 max-h-60 max-w-lg overflow-y-auto">
+          <span className='inline-block text-red-600'>{item.businessType}</span>
+          <div className="font-bold text-xl mb-2">{item.name}</div>
+          <p className="text-gray-700">
+            {item.info}
+          </p>
+          <p className="text-sm text-gray-500">
+            <span className="font-semibold">Industry Sector:</span> {item.industrySector}
+          </p>
+          <p className="text-sm text-gray-500">
+            <span className="font-semibold">Organization Size:</span> {item.organizationSize}
+          </p>
+          <p className="text-sm text-gray-500">
+            <span className="font-semibold">Timestamp:</span> {item.timestamp}
+          </p>
+        </div>
+        <div className="px-6 pt-4 pb-2">
+          {item.tags.map((tag, index) => (
+            <span key={index} className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
+              {tag}
+            </span>
+          ))}
+        </div>
+        <div className="mt-auto flex border-t border-gray-200 divide-x divide-gray-200 dark:border-neutral-700 dark:divide-neutral-700">
+          <span className="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-es-xl bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-800" onClick={() => handleModal(item)} loading={loading} href="#">
+            View
+          </span>
+          {adminMode && isAdminModeValid() && (
+            <>
+              <span className="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-ee-xl bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-800" onClick={() => navigate(`/update/${item.id}`)} href="#">
+                Update
+              </span>
+              <span className="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-ee-xl bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-800" onClick={() => handleDelete(item.id)} href="#">
+                Delete
+              </span>
+            </>
+          )}
+        </div>
+        {open && (
+          <ModalComp open={open} setOpen={setOpen} handleDelete={handleDelete} {...user} />
         )}
-        {adminMode && isAdminModeValid() && (
-        <span class="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-ee-xl bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-800" onClick={() => handleDelete(item.id)} href="#">
-          Delete
-        </span>
-        )}
-      </div>
-      {open && (
-        <ModalComp open={open} setOpen={setOpen} handleDelete={handleDelete} {...user} />
-    )}
-
-</section>
+      </section>
     </div>
-
   ))}
-  </div>
+</div>
+
                     
                 )}
 
