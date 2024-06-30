@@ -332,14 +332,17 @@ const Home = () => {
 
     return (
         <>
-        <div className='ml-64'>
-            <div className='p-4' style={{ marginBottom: '20px' }}>
-        <button 
-            className={`btn ${adminMode ? 'btn-success' : 'btn-error'}`} 
-            onClick={()=>document.getElementById('admin_modal').showModal()}
-        >
-            Admin Mode: {adminMode ? 'Active' : 'Inactive'}
-        </button>
+            <div className='ml-64 p-4'>
+            <div className='' style={{ marginBottom: '20px' }}>
+<div className="absolute top-0 right-0 m-4"> {/* Absolute positioning at top right with margin */}
+    <button 
+        className={`btn ${adminMode ? 'btn-success' : 'btn-error'}`} 
+        onClick={() => document.getElementById('admin_modal').showModal()}
+    >
+        Admin Mode: {adminMode ? 'Active' : 'Inactive'}
+    </button>
+</div>
+
         
         <dialog id="admin_modal" className="modal">
             <div className="modal-box">
@@ -360,6 +363,7 @@ const Home = () => {
                         value={secretCode}
                         onChange={handleSecretCodeChange}
                     />
+                <br></br>
                 <button
                     className='btn btn-primary w-full'
                     onClick={() => {
@@ -473,12 +477,12 @@ const Home = () => {
                     />
 </div>
 
-<div className="mt-8">
-    <label htmlFor="reportFields" className="block text-sm font-semibold text-gray-800 mb-2">Select fields for report</label>
+<div className="mt-8 ml-96 max-w-sm"> {/* Set max width to limit width further */}
+    <label htmlFor="reportFields" className="block text-sm font-semibold text-gray-300 mb-2 ml-28   ">Select fields for PDF report</label>
     <select
-        id="reportFields"
+        id="reportFields"   
         multiple
-        className="block w-full pl-4 pr-12 py-3 h-44 text-sm border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent shadow-sm transition"
+        className="block w-full pl-1 pr-4 py-1 text-sm border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent shadow-sm transition"
         onChange={(e) => setSelectedFields(Array.from(e.target.selectedOptions, option => option.value))}
         value={selectedFields}
     >
@@ -490,34 +494,30 @@ const Home = () => {
         <option value="timestamp">Timestamp</option>
         <option value="tags">Tags</option>
     </select>
-</div>
 
+    
+    <br></br>
 
-<div className="mt-6 space-x-4">
+    <div className="mt-4 space-x-4 flex"> {/* Use flex to align buttons horizontally */}
     <button
         onClick={generatePDF}
-        className="btn btn-primary mr-4"
+        className="btn bg-blue-600 text-white hover:bg-blue-700 hover:text-white transition-all"
     >
         <Brush2 size="24" color="#fff" variant="Bold" />
         Generate PDF
     </button>
+    <div></div>
     <button
         onClick={exportData}
-        className="btn btn-primary mx-4"
+        className="btn bg-blue-600 text-white hover:bg-blue-700 hover:text-white transition-all"
     >
         <ExportCurve size="24" color="#fff" variant="Bold" />
         Export as JSON
     </button>
 </div>
 
-
-<div class="dropdown">
-  <div tabindex="0" role="button" class="btn m-1">Click</div>
-  <ul tabindex="0" class="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
-  <li><button><Brush2 size="24" color="#fff" variant="Bold"/>Generate PDF</button></li>
-  <li><button><ExportCurve size="24" color="#fff" variant="Bold"/> Export as JSON</button></li>
-  </ul>
 </div>
+
 
 
                                 
@@ -528,6 +528,7 @@ const Home = () => {
                 >
                     Card View
                 </button>
+                <div></div>
                 <button
                     onClick={() => setTableView(true)}
                     className={`py-3 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border ${tableView ? 'bg-blue-600 text-white' : 'bg-white text-gray-800 border-gray-200'} hover:bg-blue-700 hover:text-white transition-all`}
@@ -626,7 +627,7 @@ const Home = () => {
             </div>
             {adminMode && isAdminModeValid() && (
 <div data-dial-init class="fixed end-6 bottom-6 group">
-    <button onClick={() => navigate('/add')} type="button" data-dial-toggle="speed-dial-menu-default" aria-controls="speed-dial-menu-default" aria-expanded="false" class="flex items-center justify-center btn btn-primary rounded-full">
+    <button onClick={() => navigate('/add')} type="button" data-dial-toggle="speed-dial-menu-default" aria-controls="speed-dial-menu-default" aria-expanded="false" class="flex items-center justify-center btn bg-blue-600 text-white hover:bg-blue-700 hover:text-white transition-all rounded-full">
         <Additem size="24" color="#fff" variant="Bold"/>
     </button>
 </div>
