@@ -332,8 +332,8 @@ const Home = () => {
 
     return (
         <>
-            <div className='ml-64 p-4'>
-            <div className='' style={{ marginBottom: '20px' }}>
+        <div className='ml-64'>
+            <div className='p-4' style={{ marginBottom: '20px' }}>
         <button 
             className={`btn ${adminMode ? 'btn-success' : 'btn-error'}`} 
             onClick={()=>document.getElementById('admin_modal').showModal()}
