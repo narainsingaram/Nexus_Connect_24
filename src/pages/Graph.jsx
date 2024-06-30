@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { db } from "../firebase";
 import { collection, getDocs } from 'firebase/firestore';
-import { CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
-import { Bar } from 'react-chartjs-2';
+import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, BarElement, ArcElement, Title, Tooltip, Legend } from 'chart.js';
+import { Line, Bar, Pie, Doughnut } from 'react-chartjs-2';
 
-// Registering necessary components
-Chart.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
-
+ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, BarElement, ArcElement, Title, Tooltip, Legend);
 
 const Graph = () => {
     const [userData, setUserData] = useState({
@@ -28,11 +26,17 @@ const Graph = () => {
             const registrationDates = {};
 
             userList.forEach(user => {
+                // Count business types
                 businessTypes[user.businessType] = (businessTypes[user.businessType] || 0) + 1;
+
+                // Count industry sectors
                 industrySectors[user.industrySector] = (industrySectors[user.industrySector] || 0) + 1;
+
+                // Count organization sizes
                 const sizeRange = getSizeRange(user.organizationSize);
                 organizationSizes[sizeRange] = (organizationSizes[sizeRange] || 0) + 1;
 
+                // Count registrations by month
                 const date = new Date(user.timestamp);
                 const monthYear = `${date.getMonth() + 1}/${date.getFullYear()}`;
                 registrationDates[monthYear] = (registrationDates[monthYear] || 0) + 1;
@@ -97,10 +101,10 @@ const Graph = () => {
     };
 
     const registrationData = {
-        labels: Object.keys(userData.registrationDates),
+        labels: Object.keys(userData.registrationDates).sort(),
         datasets: [{
             label: 'User Registrations',
-            data: Object.values(userData.registrationDates),
+            data: Object.keys(userData.registrationDates).sort().map(key => userData.registrationDates[key]),
             fill: false,
             borderColor: 'rgb(75, 192, 192)',
             tension: 0.1
@@ -108,27 +112,27 @@ const Graph = () => {
     };
 
     return (
-        <div className="container mx-auto p-4">
-            <h1 className="text-3xl font-bold mb-8 text-center">Data Visualization Dashboard</h1>
-
+        <div className="container !ml-64 p-4">
+            <h1 className="text-3xl font-bold mb-8">Data Visualization Dashboard</h1>
+            
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div className="bg-white rounded-lg shadow-lg">
-                    <h2 className="text-xl font-semibold mb-4 text-center">Business Types</h2>
+                <div className="bg-white p-6 rounded-lg shadow-lg">
+                    <h2 className="text-xl font-semibold mb-4">Business Types</h2>
                     <Bar data={businessTypeData} options={{ responsive: true, maintainAspectRatio: false }} />
                 </div>
-
-                <div className="bg-white rounded-lg shadow-lg">
-                    <h2 className="text-xl font-semibold mb-4 text-center">Industry Sectors</h2>
+                
+                <div className="bg-white p-6 rounded-lg shadow-lg">
+                    <h2 className="text-xl font-semibold mb-4">Industry Sectors</h2>
                     <Pie data={industrySectorData} options={{ responsive: true, maintainAspectRatio: false }} />
                 </div>
-
-                <div className="bg-white rounded-lg shadow-lg">
-                    <h2 className="text-xl font-semibold mb-4 text-center">Organization Sizes</h2>
+                
+                <div className="bg-white p-6 rounded-lg shadow-lg">
+                    <h2 className="text-xl font-semibold mb-4">Organization Sizes</h2>
                     <Doughnut data={organizationSizeData} options={{ responsive: true, maintainAspectRatio: false }} />
                 </div>
-
-                <div className="bg-white rounded-lg shadow-lg">
-                    <h2 className="text-xl font-semibold mb-4 text-center">User Registrations Over Time</h2>
+                
+                <div className="bg-white p-6 rounded-lg shadow-lg">
+                    <h2 className="text-xl font-semibold mb-4">User Registrations Over Time</h2>
                     <Line data={registrationData} options={{ responsive: true, maintainAspectRatio: false }} />
                 </div>
             </div>
