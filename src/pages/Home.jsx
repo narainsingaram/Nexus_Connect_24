@@ -470,51 +470,45 @@ const Home = () => {
                     />
 </div>
 
-<div className="mt-8">
-    <label htmlFor="reportFields" className="block text-sm font-semibold text-gray-800 mb-2">Select fields for report</label>
-    <select
-        id="reportFields"
-        multiple
-        className="block w-full pl-4 pr-12 py-3 text-sm border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent shadow-sm transition"
-        onChange={(e) => setSelectedFields(Array.from(e.target.selectedOptions, option => option.value))}
-        value={selectedFields}
-    >
-        <option value="name">Name</option>
-        <option value="businessType">Business Type</option>
-        <option value="info">Info</option>
-        <option value="industrySector">Industry Sector</option>
-        <option value="organizationSize">Organization Size</option>
-        <option value="timestamp">Timestamp</option>
-        <option value="tags">Tags</option>
-    </select>
+    <div className="mt-8 max-w-xs"> {/* Set max width and use flexbox for alignment */}
+        <label htmlFor="reportFields" className="block text-sm font-semibold text-gray-800 mb-2">Select fields for PDF report</label>
+        <select
+            id="reportFields"
+            multiple
+            className="block w-full pl-2 pr-6 py-1 text-sm border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent shadow-sm transition"
+            onChange={(e) => setSelectedFields(Array.from(e.target.selectedOptions, option => option.value))}
+            value={selectedFields}
+        >
+            <option value="name">Name</option>
+            <option value="businessType">Business Type</option>
+            <option value="info">Info</option>
+            <option value="industrySector">Industry Sector</option>
+            <option value="organizationSize">Organization Size</option>
+            <option value="timestamp">Timestamp</option>
+            <option value="tags">Tags</option>
+        </select>
+    
+    <br></br>
+
+    <div className="mt-4 space-x-4 flex"> {/* Use flex to align buttons horizontally */}
+        <button
+            onClick={generatePDF}
+            className="btn btn-primary mr-4"
+        >
+            <Brush2 size="24" color="#fff" variant="Bold" />
+            Generate PDF
+        </button>
+        <div></div>
+        <button
+            onClick={exportData}
+            className="btn btn-primary"
+        >
+            <ExportCurve size="24" color="#fff" variant="Bold" />
+            Export as JSON
+        </button>
+    </div>
 </div>
 
-
-<div className="mt-6 space-x-4">
-    <button
-        onClick={generatePDF}
-        className="btn btn-primary mr-4"
-    >
-        <Brush2 size="24" color="#fff" variant="Bold" />
-        Generate PDF
-    </button>
-    <button
-        onClick={exportData}
-        className="btn btn-primary mx-4"
-    >
-        <ExportCurve size="24" color="#fff" variant="Bold" />
-        Export as JSON
-    </button>
-</div>
-
-
-<div class="dropdown">
-  <div tabindex="0" role="button" class="btn m-1">Click</div>
-  <ul tabindex="0" class="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
-  <li><button><Brush2 size="24" color="#fff" variant="Bold"/>Generate PDF</button></li>
-  <li><button><ExportCurve size="24" color="#fff" variant="Bold"/> Export as JSON</button></li>
-  </ul>
-</div>
 
 
                                 
@@ -525,6 +519,7 @@ const Home = () => {
                 >
                     Card View
                 </button>
+                <div></div>
                 <button
                     onClick={() => setTableView(true)}
                     className={`py-3 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border ${tableView ? 'bg-blue-600 text-white' : 'bg-white text-gray-800 border-gray-200'} hover:bg-blue-700 hover:text-white transition-all`}
