@@ -36,6 +36,7 @@
         "react-scripts": "^5.0.1",
         "react-speech-recognition": "^3.10.0",
         "react-table": "^7.8.0",
+        "react-tabs": "^6.0.2",
         "semantic-ui-css": "^2.5.0",
         "semantic-ui-react": "^2.1.5",
         "web-vitals": "^2.1.4"
