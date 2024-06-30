@@ -1,11 +1,7 @@
 import React, { useState } from 'react';
-import { Button, Modal, Header, Image } from 'semantic-ui-react';
-import { GoogleGenerativeAI } from "@google/generative-ai";
 import { Badge } from 'primereact/badge';
 import { Edit } from 'iconsax-react';
-
-// import NoteForm from './NoteForm';
-// import NotesList from './NotesList';
+import { GoogleGenerativeAI } from "@google/generative-ai";
 
 
 const ModalComp = ({ open, setOpen, img, name, info, email, contact, id, handleDelete }) => {
@@ -14,8 +10,9 @@ const ModalComp = ({ open, setOpen, img, name, info, email, contact, id, handleD
 
     const generateSummary = async () => {
         setLoading(true);
+        // Replace with your actual API key and model name
         const MODEL_NAME = "gemini-pro";
-        const API_KEY = "AIzaSyDRlUUReWOBg7x237Y5WtC0bOyBhyMSrUw"; // Replace with your actual API key
+        const API_KEY = "AIzaSyDRlUUReWOBg7x237Y5WtC0bOyBhyMSrUw";
 
         const genAI = new GoogleGenerativeAI(API_KEY);
         const model = genAI.getGenerativeModel({ model: MODEL_NAME });
@@ -38,9 +35,8 @@ const ModalComp = ({ open, setOpen, img, name, info, email, contact, id, handleD
             });
 
             const response = result.response;
-            // Extract the summary from the response
             const generatedSummary = response.text()
-                .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>"); // Wrap text between double asterisks with <strong> tags
+                .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
 
             setSummary(generatedSummary);
         } finally {
@@ -49,60 +45,66 @@ const ModalComp = ({ open, setOpen, img, name, info, email, contact, id, handleD
     };
 
     return (
-        <Modal onClose={() => setOpen(false)} onOpen={() => setOpen(true)} open={open}>
-            <Modal.Header>Business Details</Modal.Header>
-            <Modal.Content image>
-                <Image size="medium" src={img} wrapped />
-                <Modal.Description>
-                    <Header>{name}</Header>
-                    <p>{email}</p>
-                    <p>{info}</p>
-                    <p>{contact}</p>
-                    {/* <NotesList partnerId={partner.id} />
-                    <NoteForm partnerId={partner.id} /> */}
-                    {summary && (
-                        <div
-                            style={{
-                                background: 'linear-gradient(135deg, #ff7e5f 0%, #feb47b 100%)',
-                                padding: '15px',
-                                borderRadius: '20px',
-                                marginTop: '15px',
-                                color: 'white',
-                            }}
-                        >
-                            <Header className='p-overlay-badge' as="h4" style={{ color: 'white' }}>AI-Generated Summary</Header>
-                            <p dangerouslySetInnerHTML={{ __html: summary }}></p>
-                            <Badge value="AI" severity="warning"></Badge>
+        <div className={`${open ? 'block' : 'hidden'} fixed z-10 inset-0 overflow-y-auto`}>
+            <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+                <div className="fixed inset-0 transition-opacity" aria-hidden="true">
+                    <div className="absolute inset-0 bg-gray-500 opacity-75"></div>
+                </div>
+
+                <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+
+                <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+                    <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                        <div className="sm:flex sm:items-start">
+                            <div className="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-blue-100 sm:mx-0 sm:h-10 sm:w-10">
+                                {/* Replace with your image */}
+                                <img className="h-10 w-10 rounded-full" src={img} alt="" />
+                            </div>
+                            <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+                                <h3 className="text-lg font-medium leading-6 text-gray-900">{name}</h3>
+                                <div className="mt-2">
+                                    <p className="text-sm text-gray-500">{email}</p>
+                                    <p className="text-sm text-gray-500">{info}</p>
+                                    <p className="text-sm text-gray-500">{contact}</p>
+                                </div>
+                                {summary && (
+                                    <div className="bg-gradient-to-r from-red-400 to-yellow-500 p-3 mt-4 rounded-lg text-white">
+                                        <h4 className="text-lg font-medium">AI-Generated Summary</h4>
+                                        <p dangerouslySetInnerHTML={{ __html: summary }}></p>
+                                        <Badge value="AI" severity="warning"></Badge>
+                                    </div>
+                                )}
+                            </div>
                         </div>
-                    )}
-                </Modal.Description>
-            </Modal.Content>
-            <Modal.Actions>
-                <Button color="black" onClick={() => setOpen(false)}>
-                    Cancel
-                </Button>
-                <Button
-                    color="blue"
-                    content="Summarize"
-                    labelPosition="right"
-                    icon="lightbulb"
-                    onClick={generateSummary}
-                    loading={loading}
-                    disabled={loading}
-                />
-                <Button
-                    color="red"
-                    content="Delete"
-                    labelPosition="right"
-                    icon="checkmark"
-                    onClick={() => handleDelete(id)}
-                />
-                <button onClick={() => handleDelete(id)}>
-                    Delete
-                </button>
-            </Modal.Actions>
-        </Modal>
-    )
-}
+                    </div>
+                    <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                        <button
+                            type="button"
+                            className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm"
+                            onClick={() => generateSummary()}
+                            disabled={loading}
+                        >
+                            {loading ? 'Loading...' : 'Summarize'}
+                        </button>
+                        <button
+                            type="button"
+                            className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:w-auto sm:text-sm"
+                            onClick={() => setOpen(false)}
+                        >
+                            Cancel
+                        </button>
+                        <button
+                            type="button"
+                            className="mt-3 w-full inline-flex justify-center rounded-md border border-red-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-red-700 hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:w-auto sm:text-sm"
+                            onClick={() => handleDelete(id)}
+                        >
+                            Delete
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+};
 
 export default ModalComp;
