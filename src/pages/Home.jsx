@@ -433,13 +433,13 @@ const Home = () => {
   )}
 </div>
 
-<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-6">
+<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
     <div className="relative">
-        <label htmlFor="businessType" className="block text-sm font-medium text-gray-700 mb-1">Business Type</label>
+        <label htmlFor="businessType" className="block text-sm font-semibold text-gray-800 mb-2">Business Type</label>
         <select
             id="businessType"
             multiple
-            className="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
+            className="block w-full pl-4 pr-12 py-3 text-sm border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent shadow-sm transition"
             onChange={(e) => handleBusinessTypeChange(e, { value: Array.from(e.target.selectedOptions, option => option.value) })}
             value={selectedBusinessTypes}
         >
@@ -450,11 +450,11 @@ const Home = () => {
     </div>
 
     <div className="relative">
-        <label htmlFor="industrySector" className="block text-sm font-medium text-gray-700 mb-1">Industry Sector</label>
+        <label htmlFor="industrySector" className="block text-sm font-semibold text-gray-800 mb-2">Industry Sector</label>
         <select
             id="industrySector"
             multiple
-            className="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
+            className="block w-full pl-4 pr-12 py-3 text-sm border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent shadow-sm transition"
             onChange={(e) => handleIndustrySectorChange(e, { value: Array.from(e.target.selectedOptions, option => option.value) })}
             value={selectedIndustrySectors}
         >
@@ -465,10 +465,10 @@ const Home = () => {
     </div>
 
     <div className="relative">
-        <label htmlFor="sortOption" className="block text-sm font-medium text-gray-700 mb-1">Sort by</label>
+        <label htmlFor="sortOption" className="block text-sm font-semibold text-gray-800 mb-2">Sort by</label>
         <select
             id="sortOption"
-            className="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
+            className="block w-full pl-4 pr-12 py-3 text-sm border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent shadow-sm transition"
             onChange={handleSortChange}
             value={sortOption}
         >
@@ -483,12 +483,12 @@ const Home = () => {
     </div>
 </div>
 
-<div className="mt-6">
-    <label htmlFor="reportFields" className="block text-sm font-medium text-gray-700 mb-1">Select fields for report</label>
+<div className="mt-8">
+    <label htmlFor="reportFields" className="block text-sm font-semibold text-gray-800 mb-2">Select fields for report</label>
     <select
         id="reportFields"
         multiple
-        className="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
+        className="block w-full pl-4 pr-12 py-3 text-sm border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent shadow-sm transition"
         onChange={(e) => setSelectedFields(Array.from(e.target.selectedOptions, option => option.value))}
         value={selectedFields}
     >
@@ -501,6 +501,7 @@ const Home = () => {
         <option value="tags">Tags</option>
     </select>
 </div>
+
 
 <div className="mt-6 space-x-4">
     <button
