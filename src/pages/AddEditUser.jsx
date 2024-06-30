@@ -341,7 +341,7 @@ const AddEditUser = () => {
                     />
                      <Form.Input
                       label="Upload"
-                      type="file"
+                      type="file" 
                       onChange={(e) => setFile(e.target.files[0])} 
                   />
                     <Button type="submit" primary>{id ? "Update" : "Add"} User</Button>
