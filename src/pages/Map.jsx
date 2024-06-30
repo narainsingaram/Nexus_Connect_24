@@ -13,6 +13,26 @@ const center = {
   lng: -98.5795
 };
 
+const infoWindowStyle = {
+  padding: '10px',
+  maxWidth: '200px',
+  textAlign: 'center',
+  borderRadius: '8px',
+  backgroundColor: '#fff',
+  boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
+};
+
+const titleStyle = {
+  fontSize: '18px',
+  fontWeight: 'bold',
+  marginBottom: '8px',
+};
+
+const textStyle = {
+  fontSize: '14px',
+  margin: '4px 0',
+};
+
 const Map = () => {
   const [markers, setMarkers] = useState([]);
   const [selectedMarker, setSelectedMarker] = useState(null);
@@ -51,10 +71,10 @@ const Map = () => {
             position={{ lat: selectedMarker.latitude, lng: selectedMarker.longitude }}
             onCloseClick={() => setSelectedMarker(null)}
           >
-            <div>
-              <h2>{selectedMarker.name}</h2>
-              <p>Email: {selectedMarker.email}</p>
-              <p>Contact: {selectedMarker.contact}</p>
+            <div style={infoWindowStyle}>
+              <h2 style={titleStyle}>{selectedMarker.name}</h2>
+              <p style={textStyle}>Email: {selectedMarker.email}</p>
+              <p style={textStyle}>Contact: {selectedMarker.contact}</p>
             </div>
           </InfoWindow>
         )}
