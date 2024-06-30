@@ -23,7 +23,7 @@ const initialState = {
 
 const AddEditUser = () => {
     const [data, setData] = useState(initialState);
-    const { name, email, info, contact, latitude, longitude, businessType, industrySector, website, organizationSize, availability, additionalNotes, tags } = data;
+    const {name, email, info, contact, latitude, longitude, businessType, industrySector, website, organizationSize, availability, additionalNotes, tags } = data;
     const [file, setFile] = useState(null);
     const [progress, setProgress] = useState(null);
     const [errors, setErrors] = useState({});
@@ -67,11 +67,11 @@ const AddEditUser = () => {
             }, (error) => {
                 console.log(error)
             },
-                () => {
-                    getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-                        setData((prev) => ({ ...prev, img: downloadURL }));
-                    })
-                });
+            () => {
+                getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+                    setData((prev) => ({ ...prev, img: downloadURL }));
+                })
+            });
         };
 
         file && uploadFile()
@@ -86,7 +86,7 @@ const AddEditUser = () => {
     const validateField = (fieldName, value) => {
         let error = null;
 
-        switch (fieldName) {
+        switch(fieldName) {
             case 'name':
                 if (!value) {
                     error = 'Name is required';
@@ -207,286 +207,150 @@ const AddEditUser = () => {
         }
     };
 
-    const styles = {
-        container: {
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            minHeight: '100vh',
-            backgroundColor: '#f0f0f0',
-            padding: '20px',
-        },
-        formContainer: {
-            width: '100%',
-            maxWidth: '800px',
-            padding: '20px',
-            backgroundColor: '#fff',
-            borderRadius: '10px',
-            boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
-        },
-        form: {
-            display: 'grid',
-            gap: '15px',
-        },
-        field: {
-            display: 'flex',
-            flexDirection: 'column',
-        },
-        label: {
-            marginBottom: '5px',
-            fontWeight: 'bold',
-        },
-        input: {
-            padding: '10px',
-            border: '1px solid #ccc',
-            borderRadius: '5px',
-            fontSize: '16px',
-            transition: 'border-color 0.3s',
-        },
-        inputError: {
-            borderColor: '#e74c3c',
-        },
-        errorMessage: {
-            color: '#e74c3c',
-            fontSize: '14px',
-            marginTop: '5px',
-        },
-        uploadContainer: {
-            display: 'flex',
-            alignItems: 'center',
-            gap: '10px',
-        },
-        uploadLabel: {
-            fontWeight: 'bold',
-        },
-        uploadInput: {
-            display: 'none',
-        },
-        uploadButton: {
-            padding: '10px 15px',
-            backgroundColor: '#007bff',
-            color: '#fff',
-            border: 'none',
-            borderRadius: '5px',
-            cursor: 'pointer',
-            transition: 'background-color 0.3s',
-        },
-        uploadButtonHover: {
-            backgroundColor: '#0056b3',
-        },
-        submitButton: {
-            padding: '10px 20px',
-            backgroundColor: '#28a745',
-            color: '#fff',
-            border: 'none',
-            borderRadius: '5px',
-            cursor: 'pointer',
-            transition: 'background-color 0.3s',
-        },
-        submitButtonHover: {
-            backgroundColor: '#218838',
-        },
-        loader: {
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            height: '100%',
-        },
-    };
-
     return (
-        <div style={styles.container}>
-            <div style={styles.formContainer}>
-                {isSubmit ? (
-                    <div style={styles.loader}>
-                        <Loader active inline="centered" size="large" />
-                    </div>
-                ) : (
-                    <Form style={styles.form} onSubmit={handleSubmit}>
-                        <h2>{id ? "Update User" : "Add User"}</h2>
-                        <Form.Field style={styles.field}>
-                            <label style={styles.label}>Name</label>
-                            <input
-                                type="text"
-                                name="name"
-                                value={name}
-                                onChange={handleChange}
-                                style={{ ...styles.input, ...(errors.name && styles.inputError) }}
-                            />
-                            {errors.name && <span style={styles.errorMessage}>{errors.name}</span>}
-                        </Form.Field>
-                        <Form.Field style={styles.field}>
-                            <label style={styles.label}>Email</label>
-                            <input
-                                type="email"
-                                name="email"
-                                value={email}
-                                onChange={handleChange}
-                                style={{ ...styles.input, ...(errors.email && styles.inputError) }}
-                            />
-                            {errors.email && <span style={styles.errorMessage}>{errors.email}</span>}
-                        </Form.Field>
-                        <Form.Field style={styles.field}>
-                            <label style={styles.label}>Info</label>
-                            <textarea
-                                name="info"
-                                value={info}
-                                onChange={handleChange}
-                                style={{ ...styles.input, ...(errors.info && styles.inputError), minHeight: '100px' }}
-                            />
-                            {errors.info && <span style={styles.errorMessage}>{errors.info}</span>}
-                        </Form.Field>
-                        <Form.Field style={styles.field}>
-                            <label style={styles.label}>Contact</label>
-                            <input
-                                type="text"
-                                name="contact"
-                                value={contact}
-                                onChange={handleChange}
-                                style={{ ...styles.input, ...(errors.contact && styles.inputError) }}
-                            />
-                            {errors.contact && <span style={styles.errorMessage}>{errors.contact}</span>}
-                        </Form.Field>
-                        <Form.Field style={styles.field}>
-                            <label style={styles.label}>Latitude</label>
-                            <input
-                                type="number"
-                                name="latitude"
-                                value={latitude}
-                                onChange={handleChange}
-                                style={{ ...styles.input, ...(errors.latitude && styles.inputError) }}
-                            />
-                            {errors.latitude && <span style={styles.errorMessage}>{errors.latitude}</span>}
-                        </Form.Field>
-                        <Form.Field style={styles.field}>
-                            <label style={styles.label}>Longitude</label>
-                            <input
-                                type="number"
-                                name="longitude"
-                                value={longitude}
-                                onChange={handleChange}
-                                style={{ ...styles.input, ...(errors.longitude && styles.inputError) }}
-                            />
-                            {errors.longitude && <span style={styles.errorMessage}>{errors.longitude}</span>}
-                        </Form.Field>
-                        <Form.Field style={styles.field}>
-                            <label style={styles.label}>Business Type</label>
-                            <input
-                                type="text"
-                                name="businessType"
-                                value={businessType}
-                                onChange={handleChange}
-                                style={{ ...styles.input, ...(errors.businessType && styles.inputError) }}
-                            />
-                            {errors.businessType && <span style={styles.errorMessage}>{errors.businessType}</span>}
-                        </Form.Field>
-                        <Form.Field style={styles.field}>
-                            <label style={styles.label}>Industry/Sector</label>
-                            <input
-                                type="text"
-                                name="industrySector"
-                                value={industrySector}
-                                onChange={handleChange}
-                                style={{ ...styles.input, ...(errors.industrySector && styles.inputError) }}
-                            />
-                            {errors.industrySector && <span style={styles.errorMessage}>{errors.industrySector}</span>}
-                        </Form.Field>
-                        <Form.Field style={styles.field}>
-                            <label style={styles.label}>Website</label>
-                            <input
-                                type="url"
-                                name="website"
-                                value={website}
-                                onChange={handleChange}
-                                style={{ ...styles.input, ...(errors.website && styles.inputError) }}
-                            />
-                            {errors.website && <span style={styles.errorMessage}>{errors.website}</span>}
-                        </Form.Field>
-                        <Form.Field style={styles.field}>
-                            <label style={styles.label}>Organization Size</label>
-                            <input
-                                type="text"
-                                name="organizationSize"
-                                value={organizationSize}
-                                onChange={handleChange}
-                                style={{ ...styles.input, ...(errors.organizationSize && styles.inputError) }}
-                            />
-                            {errors.organizationSize && <span style={styles.errorMessage}>{errors.organizationSize}</span>}
-                        </Form.Field>
-                        <Form.Field style={styles.field}>
-                            <label style={styles.label}>Availability</label>
-                            <input
-                                type="text"
-                                name="availability"
-                                value={availability}
-                                onChange={handleChange}
-                                style={{ ...styles.input, ...(errors.availability && styles.inputError) }}
-                            />
-                            {errors.availability && <span style={styles.errorMessage}>{errors.availability}</span>}
-                        </Form.Field>
-                        <Form.Field style={styles.field}>
-                            <label style={styles.label}>Additional Notes/Description</label>
-                            <textarea
-                                name="additionalNotes"
-                                value={additionalNotes}
-                                onChange={handleChange}
-                                style={{ ...styles.input, ...(errors.additionalNotes && styles.inputError), minHeight: '100px' }}
-                            />
-                            {errors.additionalNotes && <span style={styles.errorMessage}>{errors.additionalNotes}</span>}
-                        </Form.Field>
-                        <Form.Field style={styles.field}>
-                            <label style={styles.label}>Tags</label>
-                            <input
-                                type="text"
-                                name="tags"
-                                value={tags}
-                                onChange={handleChange}
-                                style={{ ...styles.input, ...(errors.tags && styles.inputError) }}
-                            />
-                            {errors.tags && <span style={styles.errorMessage}>{errors.tags}</span>}
-                        </Form.Field>
-                        <Form.Field style={{ ...styles.field, marginTop: '1em' }}>
-                            <label style={styles.label}>Upload Image</label>
-                            <input
-                                type="file"
-                                accept="image/*"
-                                onChange={(e) => setFile(e.target.files[0])}
-                                style={{ ...styles.input, display: 'none' }}
-                            />
-                            <div style={styles.uploadContainer}>
-                                <label htmlFor="upload-file" style={styles.uploadLabel}>
-                                    {file ? file.name : 'Choose file'}
-                                </label>
-                                <Button
-                                    as="label"
-                                    htmlFor="upload-file"
-                                    style={{ ...styles.uploadButton, ...(file && styles.uploadButtonHover) }}
-                                >
-                                    Upload
-                                    <input
-                                        id="upload-file"
-                                        type="file"
-                                        accept="image/*"
-                                        onChange={(e) => setFile(e.target.files[0])}
-                                        style={styles.uploadInput}
-                                    />
-                                </Button>
-                            </div>
-                        </Form.Field>
-                        <div style={{ display: 'flex', justifyContent: 'center', marginTop: '1em' }}>
-                            <Button
-                                type="submit"
-                                style={{ ...styles.submitButton, ...(progress && styles.submitButtonHover) }}
-                                disabled={isSubmit || progress}
-                            >
-                                {id ? 'Update' : 'Submit'}
-                            </Button>
+        <div>
+            <Grid centered verticalAlign='middle' columns="3" style={{ height: "80vh" }}>
+                <Grid.Row>
+                    <Grid.Column textAlign='center'>
+                        <div>
+                            {isSubmit ? <Loader active inline="centered" size="huge" /> : (
+                                <>
+                                    <h2>{id ? "Update User" : "Add User"}</h2>
+                                    <Form onSubmit={handleSubmit}>
+                                        <Form.Input
+                                            label="Name"
+                                            error={errors.name ? { content: errors.name } : null}
+                                            placeholder="Enter Name"
+                                            name="name"
+                                            onChange={handleChange}
+                                            value={name}
+                                            autoFocus
+                                            onBlur={() => validateField('name', name)}
+                                        />
+                                        <Form.Input
+                                            label="Email"
+                                            error={errors.email ? { content: errors.email } : null}
+                                            placeholder="Enter Email"
+                                            name="email"
+                                            onChange={handleChange}
+                                            value={email}
+                                            onBlur={() => validateField('email', email)}
+                                        />
+                                        <Form.TextArea
+                                            label="Info"
+                                            error={errors.info ? { content: errors.info } : null}
+                                            placeholder="Enter Info"
+                                            name="info"
+                                            onChange={handleChange}
+                                            value={info}
+                                            onBlur={() => validateField('info', info)}
+                                        />
+                                        <Form.Input
+                                            label="Contact"
+                                            error={errors.contact ? { content: errors.contact } : null}
+                                            placeholder="Enter Contact"
+                                            name="contact"
+                                            onChange={handleChange}
+                                            value={contact}
+                                            onBlur={() => validateField('contact', contact)}
+                                        />
+                                        <Form.Input
+                                            label="Latitude"
+                                            error={errors.latitude ? { content: errors.latitude } : null}
+                                            placeholder="Enter Latitude"
+                                            name="latitude"
+                                            onChange={handleChange}
+                                            value={latitude}
+                                            onBlur={() => validateField('latitude', latitude)}
+                                        />
+                                        <Form.Input
+                                            label="Longitude"
+                                            error={errors.longitude ? { content: errors.longitude } : null}
+                                            placeholder="Enter Longitude"
+                                            name="longitude"
+                                            onChange={handleChange}
+                                            value={longitude}
+                                            onBlur={() => validateField('longitude', longitude)}
+                                        />
+                                        <Form.Input
+                                            label="Business Type"
+                                            error={errors.businessType ? { content: errors.businessType } : null}
+                                            placeholder="Enter Business Type"
+                                            name="businessType"
+                                            onChange={handleChange}
+                                            value={businessType}
+                                            onBlur={() => validateField('businessType', businessType)}
+                                        />
+                                        <Form.Input
+                                            label="Industry/Sector"
+                                            error={errors.industrySector ? { content: errors.industrySector } : null}
+                                            placeholder="Enter Industry/Sector"
+                                            name="industrySector"
+                                            onChange={handleChange}
+                                            value={industrySector}
+                                            onBlur={() => validateField('industrySector', industrySector)}
+                                        />
+                                        <Form.Input
+                                            label="Website"
+                                            error={errors.website ? { content: errors.website } : null}
+                                            placeholder="Enter Website"
+                                            name="website"
+                                            onChange={handleChange}
+                                            value={website}
+                                            onBlur={() => validateField('website', website)}
+                                        />
+                                        <Form.Input
+                                            label="Size of Organization"
+                                            error={errors.organizationSize ? { content: errors.organizationSize } : null}
+                                            placeholder="Enter Size of Organization"
+                                            name="organizationSize"
+                                            onChange={handleChange}
+                                            value={organizationSize}
+                                            onBlur={() => validateField('organizationSize', organizationSize)}
+                                        />
+                                        <Form.Input
+                                            label="Availability"
+                                            error={errors.availability ? { content: errors.availability } : null}
+                                            placeholder="Enter Availability"
+                                            name="availability"
+                                            onChange={handleChange}
+                                            value={availability}
+                                            onBlur={() => validateField('availability', availability)}
+                                        />
+                                        <Form.TextArea
+                                            label="Additional Notes/Description"
+                                            error={errors.additionalNotes ? { content: errors.additionalNotes } : null}
+                                            placeholder="Enter Additional Notes/Description"
+                                            name="additionalNotes"
+                                            onChange={handleChange}
+                                            value={additionalNotes}
+                                            onBlur={() => validateField('additionalNotes', additionalNotes)}
+                                        />
+                                        <Form.Input
+                                            label="Tags (e.g., #tag1, #tag2)"
+                                            placeholder="Enter Tags"
+                                            name="tags"
+                                            onChange={handleChange}
+                                            value={tags}
+                                            onBlur={() => validateField('tags', tags)}
+                                        />
+                                        <Form.Input
+                                            label="Upload"
+                                            type="file"
+                                            onChange={(e) => setFile(e.target.files[0])}
+                                        />
+                                        <Button primary type="submit" disabled={progress !== null && progress < 100} >
+                                            {id ? "Update" : "Submit"}
+                                        </Button>
+                                    </Form>
+                                </>
+                            )}
                         </div>
-                    </Form>
-                )}
-            </div>
+                    </Grid.Column>
+                </Grid.Row>
+            </Grid>
         </div>
-    );
+    )
 };
 
 export default AddEditUser;
