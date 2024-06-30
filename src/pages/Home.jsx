@@ -396,7 +396,7 @@ const Home = () => {
                     <h1 className='!text-5xl !mb-4 font-bolder text-center'>NexusConnect</h1>
 
 <div className="flex justify-center items-center w-full pb-3 relative">
-  <div className="flex items-center !w-11/12 max-w-md bg-gray-100 border-transparent rounded-xl text-lg transition-transform duration-300 transform hover:translate-y-0.5">
+  <div className="flex items-center w-[80rem] px-2 bg-gray-100 border-transparent rounded-xl text-lg transition-transform duration-300 transform hover:translate-y-0.5">
     <SearchNormal size="24" color="#3b82f6" variant="Bulk" className="ml-4"/>
     <input
       placeholder="Search..." 
@@ -418,7 +418,7 @@ const Home = () => {
     </button>
   </div>
   {autocompleteSuggestions.length > 0 && (
-    <div className="absolute z-10 w-full max-w-md mt-1 bg-white rounded-md shadow-lg top-full">
+    <div className="absolute z-10 w-full rounded-2xl mt-1 bg-slate-100 rounded-md top-full">
       {autocompleteSuggestions.map((suggestion, index) => (
         <div 
           key={index} 
