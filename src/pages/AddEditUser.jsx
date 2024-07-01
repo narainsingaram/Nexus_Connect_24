@@ -313,6 +313,11 @@ const AddEditUser = () => {
                       onChange={handleChange}
                       error={errors.additionalNotes ? { content: errors.additionalNotes } : null}
                                     />
+                     <Form.Input
+                      label="Upload"
+                      type="file" 
+                      onChange={(e) => setFile(e.target.files[0])} 
+                  />
                 <div className="flex items-center">
                   <Form.Input
                     className="!inline !flex-grow"
@@ -323,18 +328,23 @@ const AddEditUser = () => {
                     onChange={handleChange}
                     error={errors.tags ? { content: errors.tags } : null}
                   />
+                  
                   <button
                     className="btn btn-primary ml-2 !mt-3"
                     type="button"
                     onClick={generateTags}
                     disabled={loadingTags}
                   >
+                    
                     <Magicpen size="16" color="#fff" variant="Bold"/>
                     {loadingTags ? 'Loading...' : 'Generate Tags'}
                   </button>
+                  
                 </div>
                     <button className='btn btn-primary' type="submit">{id ? "Update" : "Add"} Business</button>
+                   
                   </Form>
+                  
                 </>
               )}
             </div>
