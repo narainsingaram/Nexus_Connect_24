@@ -19,8 +19,9 @@ import Cookies from 'js-cookie';
 import { useTable, useGlobalFilter, useFilters, useSortBy } from 'react-table';
 
 const admins = [
-    { name: 'Admin 1', code: 'admin1code' },
-    { name: 'Admin 2', code: 'admin2code' },
+    { name: 'Shourya Sinha', code: '1234' },
+    { name: 'Narain Singaram', code: '1234' },
+    { name: 'Mithran Prakash', code: '1234' },
     // Add more admins as needed
 ];
 
@@ -418,26 +419,31 @@ const Home = () => {
     </button>
   </div>
   {autocompleteSuggestions.length > 0 && (
-    <div className="absolute z-10 w-full rounded-2xl mt-1 bg-slate-100 rounded-md top-full">
-      {autocompleteSuggestions.map((suggestion, index) => (
-        <div 
-          key={index} 
-          className="flex items-center p-2 hover:bg-gray-100 cursor-pointer"
-          onClick={() => {
-            setSearchTerm(suggestion.name);
-            setAutocompleteSuggestions([]);
-            filterUsers(suggestion.name, selectedBusinessTypes, selectedIndustrySectors, sortOption);
-          }}
-        >
-          <img src={suggestion.img} alt={suggestion.name} className="w-10 h-10 rounded-full mr-3" />
-          <div>
-            <div className="font-semibold">{suggestion.name}</div>
-            <div className="text-sm text-gray-500">{suggestion.businessType}</div>
-          </div>
-        </div>
-      ))}
+    <div 
+        className="absolute z-10 w-full rounded-2xl mt-1 bg-slate-100 rounded-md top-full"
+        onMouseLeave={() => setAutocompleteSuggestions([])}
+    >
+        {autocompleteSuggestions.map((suggestion, index) => (
+            <div 
+                key={index} 
+                className="flex items-center p-2 hover:bg-gray-100 cursor-pointer"
+                onClick={() => {
+                    setSearchTerm(suggestion.name);
+                    setAutocompleteSuggestions([]);
+                    filterUsers(suggestion.name, selectedBusinessTypes, selectedIndustrySectors, sortOption);
+                }}
+            >
+                <img src={suggestion.img} alt={suggestion.name} className="w-10 h-10 rounded-full mr-3" />
+                <div>
+                    <div className="font-semibold">{suggestion.name}</div>
+                    <div className="text-sm text-gray-500">{suggestion.businessType}</div>
+                </div>
+            </div>
+        ))}
     </div>
-  )}
+)}
+
+  )
 </div>
 
 <div className="grid grid-cols-3 gap-6 mt-8">

@@ -9,8 +9,8 @@ const containerStyle = {
 };
 
 const center = {
-  lat: 39.8283,
-  lng: -98.5795
+  lat: 33.7490, // Latitude for Atlanta, Georgia
+  lng: -84.3880 // Longitude for Atlanta, Georgia
 };
 
 const infoWindowStyle = {
@@ -73,7 +73,7 @@ const Map = () => {
 
   return (
     <LoadScript googleMapsApiKey="AIzaSyDiyzlScpC-8pjM5LvQaHgvMHknDNfvYHQ">
-      <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={4}>
+      <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={10}> {/* Updated zoom to 10 */}
         {markers.map(marker => (
           <Marker
             key={marker.id}
