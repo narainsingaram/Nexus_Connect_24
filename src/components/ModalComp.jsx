@@ -58,7 +58,7 @@ const ModalComp = ({ open, setOpen, img, name, info, email, contact, id, handleD
                         <div className="">
                         <img className="" src={img} alt="Workflow" /> 
                             <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
-                                <h3 className="!text-4xl font-medium leading-6 mt-2 text-gray-900">{name}</h3>
+                                <h3 className="!text-4xl font-medium leading-6 !mt-4 text-gray-900">{name}</h3>
                                 <div className="mt-2">
                                     <p className="text-sm text-gray-500">{email}</p>
                                     <p className="text-sm text-gray-500">{info}</p>
