@@ -22,7 +22,16 @@ const admins = [
     { name: 'Shourya Sinha', code: '1234' },
     { name: 'Narain Singaram', code: '1234' },
     { name: 'Mithran Prakash', code: '1234' },
-    // Add more admins as needed
+    { name: 'Alex Johnson', code: '1234' },
+    { name: 'Sarah Williams', code: '1234' },
+    { name: 'Michael Chen', code: '1234' },
+    { name: 'Emma Rodriguez', code: '1234' },
+    { name: 'James Wilson', code: '1234' },
+    { name: 'Olivia Garcia', code: '1234' },
+    { name: 'William Taylor', code: '1234' },
+    { name: 'Sophia Lee', code: '1234' },
+    { name: 'Lucas Brown', code: '1234' },
+    { name: 'Isabella Martinez', code: '1234' }
 ];
 
 const Home = () => {
@@ -523,7 +532,6 @@ const Home = () => {
 </div>
 
 </div>
-
 
 
                                 
